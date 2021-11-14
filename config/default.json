@@ -1,0 +1,5 @@
+{
+  "port": 5000,
+  "jwtSecret": "maksim thesis",
+  "mongoUri": "mongodb+srv://maxpan:HollowWinds@cluster0.mf5ev.mongodb.net/app?retryWrites=true&w=majority"
+}
