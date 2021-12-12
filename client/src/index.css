@@ -1,3 +1,60 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+    .diagonal-split-background{
+        background-color: dodgerblue;
+        background-image: -webkit-linear-gradient(135deg, #3b82f6 50%, #f0f9ff 50%);
+    }
+}
+
+@layer components {
+    .reg-form{
+        @apply grid grid-cols-2 gap-3
+    }
+    .reg-form > div {
+        @apply mb-3
+    }
+    .reg-form > div > label {
+        @apply block mb-2 text-white
+    }
+    .reg-form > div > input {
+        @apply w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300
+    }
+    .reg-form > div > select {
+        @apply w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300
+    }
+    .reg-form > div > span{
+        @apply absolute flex text-xs text-red-900
+    }
+    .reg-form > button {
+        @apply w-full px-3 py-4 text-xl mt-6 text-black bg-white rounded-md focus:bg-indigo-200 focus:outline-none
+    }
+
+    .auth-form{
+        @apply grid grid-cols-1
+    }
+    .auth-form > div {
+        @apply mb-5
+    }
+    .auth-form > div > label {
+        @apply block mb-1 text-black
+    }
+    .auth-form > div > input {
+        @apply w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300
+    }
+    .auth-form > div > input[type="checkbox"] {
+        @apply w-5 justify-self-start
+    }
+    .auth-form > div > span{
+        @apply absolute flex text-xs text-red-900
+    }
+    .auth-form > button {
+        @apply w-full px-3 py-4 text-xl mt-4 text-white bg-blue-600 rounded-md focus:bg-indigo-200 focus:outline-none
+    }
+
+    button:disabled {
+        @apply bg-gray-500
+    }
+}

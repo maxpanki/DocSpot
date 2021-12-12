@@ -5,6 +5,7 @@ const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const config = require('config')
 const User = require('../models/User')
+const Company = require('../models/Company')
 const router = Router()
 
 // /api/auth/register
@@ -17,6 +18,7 @@ router.post(
     ],
     async (req:any , res:any) => {
     try {
+
         const errors = validationResult(req)
 
         if (!errors.isEmpty()) {
@@ -29,15 +31,25 @@ router.post(
         const {email, password, role} = req.body
 
         //Checking email uniqueness
-        const candidate = await User.findOne({email})
-        if (candidate) {
+        const check1 = await User.findOne({email})
+        const check2 = await Company.findOne({email})
+
+        if (check1 || check2) {
             return res.status(400).json({ message: 'This email already exists in database'})
         }
 
         const hashedPassword = await bcryptjs.hash(password, 12)
-        const user = new User({ email, password: hashedPassword, role, isVerified: false})
+        if (role === 'Company'){
+            const {companyName, companySize} = req.body
+            const user = new Company({ email, password: hashedPassword, isVerified: false, companyName, companySize})
 
-        await user.save()
+            await user.save()
+        } else {
+            const {personName, personSecondName} = req.body
+            const user = new User({ email, password: hashedPassword, role, isVerified: false, personName, personSecondName})
+
+            await user.save()
+        }
 
         res.status(201).json({message: 'User has been successfully registered.'})
     } catch (e) {
@@ -66,12 +78,16 @@ router.post(
                 })
             }
 
-            const {email, password, role} = req.body
+            const {email, password} = req.body
 
-            const user = await User.findOne({ email })
-            if (!user) {
-                return res.status(400).json({ message: 'User not found.'})
+            let candidate = await User.findOne({ email })
+            if (!candidate) {
+                candidate = await Company.findOne({ email })
+                if (!candidate) {
+                    return res.status(400).json({ message: 'User not found.'})
+                }
             }
+            const user = candidate
 
             const isMatch = await bcryptjs.compare(password, user.password)
             if (!isMatch) {
