@@ -3,8 +3,12 @@ import {ReactElement} from "react";
 export type MainMenuNavElemProps = {
     message: string,
     svg: ReactElement,
-    actionType: string,
-    actionLink?: string
+    actionLink: string,
+}
+
+export type MainMenuToggleElemProps = {
+    message: string,
+    svg: ReactElement,
 }
 
 export type HeaderProps = {

@@ -6,12 +6,12 @@ import {Footer} from "./components/Footer";
 
 function App() {
 
-    const routes = useRoutes(false)
+    const routes = useRoutes(true)
 
     return (
         <div className='min-h-screen flex flex-col'>
             <Router>
-              <Header isAuthenticated={false}/>
+              <Header isAuthenticated={true}/>
               {routes}
               <Footer />
             </Router>

@@ -13,7 +13,6 @@ app.use(express.json({ extended: true }))
 
 app.use('/api/auth', require('./routes/auth.routes'))
 
-
 async function start() {
     try{
         await connect(dbUri as string)

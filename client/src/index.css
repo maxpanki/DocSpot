@@ -57,4 +57,52 @@
     button:disabled {
         @apply bg-gray-500
     }
+
+    .qa-form{
+        @apply grid grid-cols-1
+    }
+    .qa-form > div {
+        @apply mb-3
+    }
+    .qa-form > div > label {
+        @apply block mb-1 text-black
+    }
+    .qa-form > div > input {
+        @apply w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300
+    }
+    .qa-form > div > textarea {
+        @apply w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300
+    }
+    .qa-form > div > span {
+        @apply absolute flex text-xs text-red-900
+    }
+    .qa-form > div > button {
+        @apply px-3 py-1 max-w-min text-white bg-blue-600 rounded-md focus:bg-indigo-200 focus:outline-none
+    }
+
+    .scrollbar-w-2::-webkit-scrollbar {
+        width: 0.25rem;
+        height: 0.25rem;
+    }
+
+    .scrollbar-track-blue-lighter::-webkit-scrollbar-track {
+        --bg-opacity: 1;
+        background-color: #f7fafc;
+        background-color: rgba(247, 250, 252, var(--bg-opacity));
+    }
+
+    .scrollbar-thumb-blue::-webkit-scrollbar-thumb {
+        --bg-opacity: 1;
+        background-color: #edf2f7;
+        background-color: rgba(237, 242, 247, var(--bg-opacity));
+    }
+
+    .scrollbar-thumb-rounded::-webkit-scrollbar-thumb {
+        border-radius: 0.25rem;
+    }
+
+    .cut-text {
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
 }
