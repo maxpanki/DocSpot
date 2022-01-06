@@ -90,3 +90,7 @@ export const lock = (
         </svg>
     </React.Fragment>
 )
+
+export const logout = (
+    <img className='h-5' src="https://img.icons8.com/material/24/000000/exit.png"/>
+)

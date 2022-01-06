@@ -8,6 +8,7 @@ import {PageNotFound} from "./pages/PageNotFound";
 import {QAPage} from "./pages/QAPage";
 import {ChatPage} from "./pages/ChatPage";
 import {QuestionPage} from "./pages/QuestionPage";
+import {Logout} from "./components/Logout";
 
 
 export const useRoutes = (isAuthenticated: boolean) => {
@@ -17,10 +18,11 @@ export const useRoutes = (isAuthenticated: boolean) => {
                 <Route path='/feed' element={<FeedPage/>} />
                 <Route path='/qa' element={<QAPage/>} />
                 <Route path='/question' element={<QuestionPage />} />
-                <Route path='/profile' element={<ProfilePage/>} />
+                <Route path='/profile/:id' element={<ProfilePage/>} />
                 <Route path='/' element={<MainPage />} />
                 <Route path='/chat' element={<ChatPage/>} />
-                <Route path='*' element={<Navigate to='/profile' />} />
+                <Route path='/logout' element={<Logout />} />
+                <Route path='*' element={<Navigate to='/feed' />} />
             </Routes>
         )
     }

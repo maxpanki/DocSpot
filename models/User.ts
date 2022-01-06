@@ -7,6 +7,9 @@ const schema = new Schema({
     isVerified: {type: Boolean, required: true, default: false},
     personName: {type: String, required: true},
     personSecondName: {type: String, required: true},
+    position: {type: String},
+    phone: {type: String},
+    avatar: {type: String, required: true, default: 'some string'},
     workingPlace: {type: Types.ObjectId, ref: 'Company'}
 })
 

@@ -1,9 +1,11 @@
-import React, {useEffect} from 'react'
+import React, {useContext, useEffect} from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import {useHttp} from "../hooks/http.hook";
 import {AuthFormInputs, AuthFormProps} from "../types";
+import {AuthContext} from "../context/AuthContext";
 
 const AuthForm = ({callPopup}: AuthFormProps) => {
+    const auth = useContext(AuthContext)
     const {loading, error, request, clearError} = useHttp()
     const { register, handleSubmit, watch, formState: { errors } } = useForm<AuthFormInputs>();
 
@@ -20,11 +22,9 @@ const AuthForm = ({callPopup}: AuthFormProps) => {
                 email: data.email,
                 password: data.password,
             })
-            callPopup(res.message, 'success')
-
-        } catch (e) {
-
-        }
+            auth.login(res.token, res.userId)
+            callPopup('Successfully logged in', 'success')
+        } catch (e) {}
     };
 
     return (

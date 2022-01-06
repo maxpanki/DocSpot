@@ -42,3 +42,7 @@ export type RegFormProps = {
 export type AuthFormProps = {
     callPopup: (message: string, type: string) => void
 }
+
+export type EmptyFunction = {
+    emptyFunc: () => void
+}

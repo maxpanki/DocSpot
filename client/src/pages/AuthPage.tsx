@@ -3,10 +3,7 @@ import AuthForm from '../components/AuthForm'
 import RegForm from "../components/RegForm";
 import {Alerts} from "../elements/Alerts";
 
-
-
 export const AuthPage = () => {
-
     //User data information object creation
     const [message, setMessage ] = useState('')
     const [type, setType] = useState('')
