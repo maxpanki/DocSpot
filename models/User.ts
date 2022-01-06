@@ -8,7 +8,7 @@ const schema = new Schema({
     personName: {type: String, required: true},
     personSecondName: {type: String, required: true},
     position: {type: String},
-    phone: {type: String},
+    phoneNumber: {type: String},
     avatar: {type: String, required: true, default: 'some string'},
     workingPlace: {type: Types.ObjectId, ref: 'Company'}
 })

@@ -43,6 +43,7 @@ export type AuthFormProps = {
     callPopup: (message: string, type: string) => void
 }
 
-export type EmptyFunction = {
-    emptyFunc: () => void
+export type ProfileDataLineProps = {
+    label: string,
+    text: string
 }

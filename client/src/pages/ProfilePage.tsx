@@ -2,9 +2,9 @@ import React, {useCallback, useContext, useEffect, useState} from 'react'
 import {useParams} from 'react-router-dom'
 import {useHttp} from "../hooks/http.hook";
 import {AuthContext} from "../context/AuthContext";
-import {LoaderIcon} from "react-hot-toast";
 import {Loader} from "../components/Loader";
 import {UserCard} from "../components/UserCard";
+import {EditUserCard} from "../components/EditUserCard";
 
 export const ProfilePage = () => {
     const {token} = useContext(AuthContext)
@@ -26,13 +26,18 @@ export const ProfilePage = () => {
         getUser()
     }, [getUser])
 
+    const changeMode = (stateValue: string) => {
+        setMode(stateValue)
+    }
+
     if (loading) {
         return <Loader />
     }
 
     return(
         <React.Fragment>
-            { !loading && user && <UserCard />}
+            { !loading && mode == 'view' && user && <UserCard data={user} changeMode={changeMode} />}
+            { !loading && mode == 'edit' && user && <EditUserCard data={user} changeMode={changeMode} />}
         </React.Fragment>
     )
 }
