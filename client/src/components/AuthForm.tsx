@@ -22,7 +22,7 @@ const AuthForm = ({callPopup}: AuthFormProps) => {
                 email: data.email,
                 password: data.password,
             })
-            auth.login(res.token, res.userId)
+            auth.login(res.token, res.userId, res.avatar)
             callPopup('Successfully logged in', 'success')
         } catch (e) {}
     };

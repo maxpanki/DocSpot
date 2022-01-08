@@ -1,6 +1,5 @@
 import React from "react";
 import ProfileDataLine from "../elements/ProfileDataLine";
-import {Link} from "react-router-dom";
 
 export const UserCard = ({data, changeMode}: any) => {
 
@@ -24,8 +23,8 @@ export const UserCard = ({data, changeMode}: any) => {
                         <div className='border-b pb-3 border-gray-300'>
                             <div>
                                 <div className='flex justify-center'>
-                                    <img className="block h-16 rounded-full my-5"
-                                         src={'/client/src/img/userAvatars/defaultAvatar.bmp'}
+                                    <img className="block max-h-40 rounded-full mb-5"
+                                         src={'/uploads/' + user.avatar}
                                          alt="Avatar"/>
                                 </div>
                                 <div className='flex justify-center'>

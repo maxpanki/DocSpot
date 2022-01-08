@@ -4,7 +4,7 @@ import {useHttp} from "../hooks/http.hook";
 import {AuthContext} from "../context/AuthContext";
 import {Loader} from "../components/Loader";
 import {UserCard} from "../components/UserCard";
-import {EditUserCard} from "../components/EditUserCard";
+import EditUserCard from "../components/EditUserCard";
 
 export const ProfilePage = () => {
     const {token} = useContext(AuthContext)
@@ -35,9 +35,9 @@ export const ProfilePage = () => {
     }
 
     return(
-        <React.Fragment>
-            { !loading && mode == 'view' && user && <UserCard data={user} changeMode={changeMode} />}
-            { !loading && mode == 'edit' && user && <EditUserCard data={user} changeMode={changeMode} />}
-        </React.Fragment>
+        <div className='flex-1 relative h-full'>
+            { !loading && mode === 'view' && user && <UserCard data={user} changeMode={changeMode} />}
+            { !loading && mode === 'edit' && user && <EditUserCard data={user} changeMode={changeMode} />}
+        </div>
     )
 }

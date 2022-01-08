@@ -9,7 +9,7 @@ const schema = new Schema({
     avatar: {type: String, required: true, default: 'some string'},
     phoneNumber: {type: String},
     address: {type: String},
-    coordinates: {type: String}
+    location: {type: String}
 })
 
 module.exports = model('Company', schema)

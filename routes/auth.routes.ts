@@ -18,16 +18,14 @@ router.post(
     ],
     async (req:any , res:any) => {
     try {
-
         const errors = validationResult(req)
-
         if (!errors.isEmpty()) {
             return res.status(400).json({
                 errors: errors.array(),
                 message: 'Incorrect registration data.'
             })
         }
-
+        const defaultAvatar = 'defaultAvatar.bmp'
         const {email, password, role} = req.body
 
         //Checking email uniqueness
@@ -41,12 +39,12 @@ router.post(
         const hashedPassword = await bcryptjs.hash(password, 12)
         if (role === 'Company'){
             const {companyName, companySize} = req.body
-            const user = new Company({ email, password: hashedPassword, isVerified: false, companyName, companySize})
+            const user = new Company({ email, password: hashedPassword, isVerified: false, companyName, companySize, avatar: defaultAvatar})
 
             await user.save()
         } else {
             const {personName, personSecondName} = req.body
-            const user = new User({ email, password: hashedPassword, role, isVerified: false, personName, personSecondName})
+            const user = new User({ email, password: hashedPassword, role, isVerified: false, personName, personSecondName, avatar: defaultAvatar})
 
             await user.save()
         }
@@ -100,7 +98,7 @@ router.post(
                 { expiresIn: '1h' }
             )
 
-            res.json({ token, userId: user.id })
+            res.json({ token, userId: user.id, avatar: user.avatar })
 
         } catch (e) {
             res.status(500).json({

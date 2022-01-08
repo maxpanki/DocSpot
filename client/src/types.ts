@@ -47,3 +47,21 @@ export type ProfileDataLineProps = {
     label: string,
     text: string
 }
+
+export type EditUserCardProps = {
+    data: any,
+    changeMode: (stateValue: string) => void,
+
+}
+
+export type EditUserCardFormInputs = {
+    companySize: string,
+    email: string,
+    password: string,
+    confirmPassword: string,
+    location: string,
+    address: string,
+    phoneNumber: string,
+    avatar: string,
+    position: string
+}

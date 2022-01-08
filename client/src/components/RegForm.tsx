@@ -79,7 +79,7 @@ const RegForm = ({callPopup}:RegFormProps) => {
                                     <option>101-500</option>
                                     <option>501-1000</option>
                                 </select>
-                                {errors.secondName && <span>This field is required</span>}
+                                {errors.companySize && <span>This field is required</span>}
                             </div>
                         </React.Fragment>
                     )

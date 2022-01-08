@@ -80,6 +80,28 @@
         @apply px-3 py-1 max-w-min text-white bg-blue-600 rounded-md focus:bg-indigo-200 focus:outline-none
     }
 
+    .edit-form{
+        @apply grid grid-cols-1 px-10
+    }
+    .edit-form > div > div {
+        @apply mb-5
+    }
+    .edit-form > div > div > label {
+        @apply block mb-1 text-black
+    }
+    .edit-form > div > div > input {
+        @apply w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300
+    }
+    .edit-form > div > div > input[type="checkbox"] {
+        @apply w-5 justify-self-start
+    }
+    .edit-form > div > div > span{
+        @apply absolute flex text-xs text-red-900
+    }
+    .edit-form > div > button {
+        @apply w-full px-3 py-4 text-xl mt-4 text-white bg-blue-600 rounded-md focus:bg-indigo-200 focus:outline-none
+    }
+
     .scrollbar-w-2::-webkit-scrollbar {
         width: 0.25rem;
         height: 0.25rem;
