@@ -1,4 +1,5 @@
 import {ReactElement} from "react";
+import exp from "constants";
 
 export type MainMenuNavElemProps = {
     message: string,
@@ -51,7 +52,10 @@ export type ProfileDataLineProps = {
 export type EditUserCardProps = {
     data: any,
     changeMode: (stateValue: string) => void,
+}
 
+export type StatsProps = {
+    data: any
 }
 
 export type EditUserCardFormInputs = {
@@ -64,4 +68,9 @@ export type EditUserCardFormInputs = {
     phoneNumber: string,
     avatar: string,
     position: string
+}
+
+export type MapProps = {
+    lat: number,
+    lng: number
 }

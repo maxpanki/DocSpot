@@ -1,5 +1,4 @@
 import {useState, useCallback, useEffect} from 'react'
-import {set} from "react-hook-form";
 
 const storageName = 'userData'
 
@@ -15,7 +14,7 @@ export const useAuth = () => {
         setAvatar(avatar)
 
         localStorage.setItem(storageName, JSON.stringify({
-            userId: id, token: jwtToken
+            userId: id, token: jwtToken, avatar: avatar
         }))
     }, [])
 

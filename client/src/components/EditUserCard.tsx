@@ -4,10 +4,9 @@ import {useHttp} from "../hooks/http.hook";
 import {EditUserCardFormInputs, EditUserCardProps} from "../types";
 import {AuthContext} from "../context/AuthContext";
 
-
 const EditUserCard = ({data, changeMode}: EditUserCardProps) => {
 
-    const {token, callPopup} = useContext(AuthContext)
+    const {token, userId, callPopup, avatar} = useContext(AuthContext)
     const user = data.user
     const preloadedValues = {
         companySize: user.companySize,
@@ -17,7 +16,7 @@ const EditUserCard = ({data, changeMode}: EditUserCardProps) => {
         location: user.location,
         email: user.email
     }
-    console.log(preloadedValues)
+
     const {loading, error, request, clearError} = useHttp()
     const { register, handleSubmit, watch, formState: { errors } } = useForm<EditUserCardFormInputs>({
         defaultValues: preloadedValues
@@ -32,13 +31,9 @@ const EditUserCard = ({data, changeMode}: EditUserCardProps) => {
 
     const onSubmit: SubmitHandler<EditUserCardFormInputs> = async (data) => {
         try {
-            const type = user.companyName ? 'company' : 'user'
             const formData = new FormData()
-
-            console.log('TOKEN:', token)
             // @ts-ignore
             formData.append('token', token)
-            formData.append('type', type)
             if (data.companySize){
                 formData.append('companySize', data.companySize)
             }
@@ -66,9 +61,6 @@ const EditUserCard = ({data, changeMode}: EditUserCardProps) => {
             if (data.position){
                 formData.append('position', data.position)
             }
-
-            console.log(formData.get('avatar'))
-
             const res = await fetch('/api/profile/edit', {
                 method: 'POST',
                 body: formData,
@@ -77,16 +69,21 @@ const EditUserCard = ({data, changeMode}: EditUserCardProps) => {
                 }
             }).then(
                 (res) => {
-                    console.log(res)
                     if (res.status === 201) {
+                        if (data.avatar[0]){
+                            localStorage.setItem('userData', JSON.stringify({
+                                userId: userId, token: token, avatar: (data.avatar[0] as unknown as File).name
+                            }))
+                        }
                         callPopup('Your data has been saved', 'success')
                     } else {
                         callPopup('Data was not saved', 'error')
                     }
                 }
             )
-        } catch (e) {
-            callPopup('Data was not saved', 'error')
+        } catch (e: any) {
+            alert(e.message)
+            callPopup('Data was not saved. ' + e.message, 'error')
         }
     };
 

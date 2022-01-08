@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import MainMenuNavElem from "../elements/MainMenuNavElem";
 import {bellSVG, listSVG, logout, messageSVG, portraitSVG, questionSVG} from "../img/svg/svg";
 import {HeaderProps} from "../types";
@@ -8,6 +8,10 @@ import {AuthContext} from "../context/AuthContext";
 
 const Header = ({isAuthenticated}: HeaderProps) => {
     const auth = useContext(AuthContext)
+    const [avatar, setAvatar] = useState(auth.avatar)
+    useEffect(() => {
+        setAvatar(auth.avatar)
+    }, [auth.avatar])
 
     const menuElements = () => {
         if (isAuthenticated) {
@@ -21,8 +25,8 @@ const Header = ({isAuthenticated}: HeaderProps) => {
                     <MainMenuNavElem message='Log out' svg={logout} actionLink='/logout' />
                     <div className='pt-1 grid justify-items-center'>
                         <img className="block h-11 rounded-full"
-                             src={"/uploads/" + auth.avatar}
-                             alt="Woman's Face"/>
+                             src={"/uploads/" + avatar}
+                             alt="Avatar"/>
                     </div>
                 </div>
                 )

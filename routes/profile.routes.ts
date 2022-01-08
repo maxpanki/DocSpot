@@ -3,10 +3,8 @@ import bcryptjs from "bcryptjs";
 
 const auth = require('../middleware/auth.middleware')
 const User = require('../models/User')
-const Company = require('../models/Company')
 const router = Router()
 const jwt = require('jsonwebtoken')
-const multer = require('multer')
 
 // /api/profile/edit
 router.post(
@@ -16,7 +14,6 @@ router.post(
 
             const body = req.body
             const token = body.token
-            const type = body.type
             const id = jwt.decode(token).userId
 
             let objForUpdate: {[k: string]: any} = {}
@@ -36,7 +33,7 @@ router.post(
                 objForUpdate.password = hashedPassword
             }
 
-            const user = type === 'company' ? await Company.findByIdAndUpdate(id, objForUpdate) : await User.findByIdAndUpdate(id, objForUpdate)
+            const user = await User.findByIdAndUpdate(id, objForUpdate)
             if (!user) {
                 return res.status(400).json({ message: 'User not found.'})
             }
@@ -55,10 +52,7 @@ router.get(
 
             let candidate = await User.findById(id)
             if (!candidate) {
-                candidate = await Company.findById(id)
-                if (!candidate) {
-                    return res.status(400).json({ message: 'User not found.'})
-                }
+                return res.status(400).json({ message: 'User not found.'})
             }
             const user = candidate
 

@@ -5,11 +5,15 @@ const schema = new Schema({
     password: {type: String, required: true},
     role: {type: String, required: true},
     isVerified: {type: Boolean, required: true, default: false},
-    personName: {type: String, required: true},
-    personSecondName: {type: String, required: true},
+    companyName: {type: String},
+    companySize: {type: String},
+    personName: {type: String},
+    personSecondName: {type: String},
     position: {type: String},
     phoneNumber: {type: String},
-    avatar: {type: String, required: true, default: 'some string'},
+    address: {type: String},
+    location: {type: String},
+    avatar: {type: String, required: true, default: 'defaultAvatar.bmp'},
     workingPlace: {type: Types.ObjectId, ref: 'Company'}
 })
 

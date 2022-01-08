@@ -1,12 +1,25 @@
-import React from "react";
+import React, {useContext} from "react";
 import ProfileDataLine from "../elements/ProfileDataLine";
+import {AuthContext} from "../context/AuthContext";
+import Map from "../elements/Map";
 
 export const UserCard = ({data, changeMode}: any) => {
 
+    const auth = useContext(AuthContext)
     const user = data.user
 
+    console.log('USER', user)
+
+    let coordinates
+    if (user.location) {
+        const array = user.location.split(':')
+        coordinates = {
+            lat: +array[0],
+            lng: +array[1]
+        }
+    }
+
     const getName = () => {
-        console.log(user)
         if (user.personName) {
             return user.personName + ' ' + user.personSecondName
         }
@@ -33,7 +46,7 @@ export const UserCard = ({data, changeMode}: any) => {
                             </div>
                         </div>
                         <div className='pl-8 py-8 leading-loose'>
-                            <ProfileDataLine label='Role' text={user.role || 'Company'}/>
+                            <ProfileDataLine label='Role' text={user.role}/>
                             {user.companySize && <ProfileDataLine label='Company size' text={user.companySize} />}
                             {user.position && <ProfileDataLine label='Position' text={user.position}/>}
                             {user.phoneNumber && <ProfileDataLine label='Phone number' text={user.phoneNumber} />}
@@ -41,14 +54,21 @@ export const UserCard = ({data, changeMode}: any) => {
 
                         </div>
                     </div>
+                    {coordinates &&
+                        <div className='mt-5 rounded rounded-2xl'>
+                            <Map lat={coordinates.lat} lng={coordinates.lng} />
+                        </div>
+                    }
                     <div className='w-full mt-3 flex justify-center'>
-                        <button
-                            className='py-2 w-1/2 text-xl rounded-xl text-white bg-blue-500 hover:bg-blue-600'
-                            onClick={() => {
-                                changeMode('edit')}
-                            }>
-                            Edit
-                        </button>
+                        { user._id === auth.userId &&
+                            <button
+                                className='py-2 w-1/2 text-xl rounded-xl text-white bg-blue-500 hover:bg-blue-600'
+                                onClick={() => {
+                                    changeMode('edit')}
+                                }>
+                                Edit
+                            </button>
+                        }
                     </div>
                 </div>
                 <div className="mx-3 my-5 col-span-6">

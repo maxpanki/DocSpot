@@ -1,7 +1,19 @@
-import React from "react";
-import avatar from "../img/mocup_avatar.png";
+import React, {useCallback, useContext, useEffect} from "react";
+import {AuthContext} from "../context/AuthContext";
+import {StatsProps} from "../types";
 
-const Stats = () => {
+const Stats = ({data}: StatsProps) => {
+
+    const user = data.user
+
+    const getName = () => {
+        if (user.personName) {
+            return user.personName + ' ' + user.personSecondName
+        }
+        if (user.companyName) {
+            return user.companyName
+        }
+    }
 
     const button = (
         <div className='w-full mt-3 flex justify-center'>
@@ -17,11 +29,11 @@ const Stats = () => {
                 <div>
                     <div className='flex justify-center'>
                         <img className="block h-16 rounded-full my-5"
-                             src="https://images.unsplash.com/photo-1590031905470-a1a1feacbb0b?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
-                             alt="Woman's Face"/>
+                             src={"/uploads/" + user.avatar}
+                             alt="Avatar"/>
                     </div>
                     <div className='flex justify-center'>
-                        <p>Nick Jhonson</p>
+                        <p>{getName()}</p>
                     </div>
                 </div>
             </div>
@@ -41,6 +53,7 @@ const Stats = () => {
             </div>
         </div>
     )
+
     return (
         <div className="mt-10 mx-3 col-span-3">
             {element}

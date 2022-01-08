@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import {BrowserRouter as Router} from 'react-router-dom'
 import {useRoutes} from './routes'
 import Header from "./components/Header";
@@ -26,6 +26,9 @@ function App() {
             snackbarRef.current.show()
         }
     }
+    useEffect(() => {
+
+    })
 
     const snackbarRef = useRef<{show: ()=> void}>(null)
 

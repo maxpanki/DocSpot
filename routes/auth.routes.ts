@@ -5,7 +5,6 @@ const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const config = require('config')
 const User = require('../models/User')
-const Company = require('../models/Company')
 const router = Router()
 
 // /api/auth/register
@@ -30,16 +29,14 @@ router.post(
 
         //Checking email uniqueness
         const check1 = await User.findOne({email})
-        const check2 = await Company.findOne({email})
-
-        if (check1 || check2) {
+        if (check1) {
             return res.status(400).json({ message: 'This email already exists in database'})
         }
 
         const hashedPassword = await bcryptjs.hash(password, 12)
         if (role === 'Company'){
             const {companyName, companySize} = req.body
-            const user = new Company({ email, password: hashedPassword, isVerified: false, companyName, companySize, avatar: defaultAvatar})
+            const user = new User({ email, password: hashedPassword, role, isVerified: false, companyName, companySize, avatar: defaultAvatar})
 
             await user.save()
         } else {
@@ -50,9 +47,9 @@ router.post(
         }
 
         res.status(201).json({message: 'User has been successfully registered.'})
-    } catch (e) {
+    } catch (e: any) {
         res.status(500).json({
-            message: 'Something went wrong, please try again later.'
+            message: e.message
         })
     }
 })
@@ -80,10 +77,7 @@ router.post(
 
             let candidate = await User.findOne({ email })
             if (!candidate) {
-                candidate = await Company.findOne({ email })
-                if (!candidate) {
-                    return res.status(400).json({ message: 'User not found.'})
-                }
+                return res.status(400).json({ message: 'User not found.'})
             }
             const user = candidate
 
@@ -100,9 +94,9 @@ router.post(
 
             res.json({ token, userId: user.id, avatar: user.avatar })
 
-        } catch (e) {
+        } catch (e: any) {
             res.status(500).json({
-                message: 'Something went wrong, please try again later.'
+                message: e.message
             })
         }
 })
