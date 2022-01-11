@@ -4,7 +4,6 @@ import bcryptjs from "bcryptjs";
 const auth = require('../middleware/auth.middleware')
 const User = require('../models/User')
 const router = Router()
-const jwt = require('jsonwebtoken')
 
 // /api/profile/edit
 router.post(
@@ -13,8 +12,7 @@ router.post(
     async (req:any, res:any) => {
 
             const body = req.body
-            const token = body.token
-            const id = jwt.decode(token).userId
+            const id = req.user.userId
 
             let objForUpdate: {[k: string]: any} = {}
             if (body.email) objForUpdate.email = body.email

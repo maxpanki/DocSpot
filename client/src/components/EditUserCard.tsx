@@ -6,7 +6,7 @@ import {AuthContext} from "../context/AuthContext";
 
 const EditUserCard = ({data, changeMode}: EditUserCardProps) => {
 
-    const {token, userId, callPopup, avatar} = useContext(AuthContext)
+    const { token, userId, callPopup } = useContext(AuthContext)
     const user = data.user
     const preloadedValues = {
         companySize: user.companySize,
@@ -32,8 +32,7 @@ const EditUserCard = ({data, changeMode}: EditUserCardProps) => {
     const onSubmit: SubmitHandler<EditUserCardFormInputs> = async (data) => {
         try {
             const formData = new FormData()
-            // @ts-ignore
-            formData.append('token', token)
+
             if (data.companySize){
                 formData.append('companySize', data.companySize)
             }
@@ -85,7 +84,7 @@ const EditUserCard = ({data, changeMode}: EditUserCardProps) => {
             alert(e.message)
             callPopup('Data was not saved. ' + e.message, 'error')
         }
-    };
+    }
 
     return (
         <React.Fragment>
@@ -155,7 +154,7 @@ const EditUserCard = ({data, changeMode}: EditUserCardProps) => {
                 </div>
             </form>
         </React.Fragment>
-    );
+    )
 }
 
 export default EditUserCard

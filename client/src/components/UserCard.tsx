@@ -1,81 +1,28 @@
 import React, {useContext} from "react";
-import ProfileDataLine from "../elements/ProfileDataLine";
 import {AuthContext} from "../context/AuthContext";
-import Map from "../elements/Map";
+import {UserInfo} from "./UserInfo";
+import {Posts} from "./Posts";
 
-export const UserCard = ({data, changeMode}: any) => {
+export const UserCard = ({data, posts, changeMode}: any) => {
 
     const auth = useContext(AuthContext)
-    const user = data.user
-
-    console.log('USER', user)
-
-    let coordinates
-    if (user.location) {
-        const array = user.location.split(':')
-        coordinates = {
-            lat: +array[0],
-            lng: +array[1]
-        }
-    }
-
-    const getName = () => {
-        if (user.personName) {
-            return user.personName + ' ' + user.personSecondName
-        }
-        if (user.companyName) {
-            return user.companyName
-        }
-    }
+    const {user} = data
+    const comments = null
 
     return(
         <div>
             <div className='grid grid-cols-12 bg-gray-50'>
-                <div className="mt-10 mx-3 col-span-3">
-                    <div className='rounded shadow w-full'>
-                        <div className='border-b pb-3 border-gray-300'>
-                            <div>
-                                <div className='flex justify-center'>
-                                    <img className="block max-h-40 rounded-full mb-5"
-                                         src={'/uploads/' + user.avatar}
-                                         alt="Avatar"/>
-                                </div>
-                                <div className='flex justify-center'>
-                                    <p>{getName()}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='pl-8 py-8 leading-loose'>
-                            <ProfileDataLine label='Role' text={user.role}/>
-                            {user.companySize && <ProfileDataLine label='Company size' text={user.companySize} />}
-                            {user.position && <ProfileDataLine label='Position' text={user.position}/>}
-                            {user.phoneNumber && <ProfileDataLine label='Phone number' text={user.phoneNumber} />}
-                            {user.address && <ProfileDataLine label='Address' text={user.address} />}
-
-                        </div>
-                    </div>
-                    {coordinates &&
-                        <div className='mt-5 rounded rounded-2xl'>
-                            <Map lat={coordinates.lat} lng={coordinates.lng} />
+                <UserInfo user={user} changeMode={changeMode}/>
+                <div className="mx-3 mt-10 col-span-9">
+                    {
+                        posts.length === 0 &&
+                        <div>
+                            no posts
                         </div>
                     }
-                    <div className='w-full mt-3 flex justify-center'>
-                        { user._id === auth.userId &&
-                            <button
-                                className='py-2 w-1/2 text-xl rounded-xl text-white bg-blue-500 hover:bg-blue-600'
-                                onClick={() => {
-                                    changeMode('edit')}
-                                }>
-                                Edit
-                            </button>
-                        }
-                    </div>
-                </div>
-                <div className="mx-3 my-5 col-span-6">
-
-                </div>
-                <div className="mt-10 mx-3 col-span-3">
-
+                    {
+                        posts.length !== 0 && <Posts posts={posts} user={user} comments={comments} />
+                    }
                 </div>
             </div>
         </div>

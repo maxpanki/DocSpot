@@ -7,10 +7,12 @@ import {UserCard} from "../components/UserCard";
 import EditUserCard from "../components/EditUserCard";
 
 export const ProfilePage = () => {
-    const {token} = useContext(AuthContext)
+    const {token, callPopup} = useContext(AuthContext)
     const {request, loading} = useHttp()
     const [mode, setMode] = useState('view')
     const [user, setUser] = useState(null)
+    const [posts, setPosts] = useState(null)
+
     const userId = useParams().id
 
     const getUser = useCallback( async () => {
@@ -19,12 +21,26 @@ export const ProfilePage = () => {
                 Authorization: `Bearer ${token}`
             })
             setUser(fetched)
-        } catch (e) {}
+        } catch (e: any) {
+            callPopup(e.message, 'error')
+        }
+    }, [token, userId, request])
+
+    const getPosts = useCallback( async () => {
+        try {
+            const fetched = await request(`/api/post/getUsersPosts/${userId}`, 'GET', null, {
+                Authorization: `Bearer ${token}`
+            })
+            setPosts(fetched.post)
+        } catch (e: any) {
+            callPopup(e.message, 'error')
+        }
     }, [token, userId, request])
 
     useEffect(() => {
+        getPosts()
         getUser()
-    }, [getUser])
+    }, [getUser, getPosts])
 
     const changeMode = (stateValue: string) => {
         setMode(stateValue)
@@ -36,7 +52,7 @@ export const ProfilePage = () => {
 
     return(
         <div className='flex-1 relative h-full'>
-            { !loading && mode === 'view' && user && <UserCard data={user} changeMode={changeMode} />}
+            { !loading && mode === 'view' && user && posts && <UserCard data={user} posts={posts} changeMode={changeMode} />}
             { !loading && mode === 'edit' && user && <EditUserCard data={user} changeMode={changeMode} />}
         </div>
     )

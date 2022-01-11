@@ -1,5 +1,4 @@
 import React, {useCallback, useContext, useEffect, useState} from 'react'
-import Post from "../components/posts";
 import Stats from "../components/Stats";
 import RecommendedHashtags from "../components/RecommendedHashtags";
 import {AuthContext} from "../context/AuthContext";
@@ -34,11 +33,12 @@ export const FeedPage = () => {
         return <Loader />
     }
 
+    // ADD posts
     return(
         <div>
             <div className='grid grid-cols-12 bg-gray-50'>
                 {!loading && user && <Stats data={user} />}
-                <Post />
+
                 <RecommendedHashtags />
             </div>
         </div>

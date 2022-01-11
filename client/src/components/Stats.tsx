@@ -1,5 +1,5 @@
-import React, {useCallback, useContext, useEffect} from "react";
-import {AuthContext} from "../context/AuthContext";
+import React from "react";
+import { Link } from "react-router-dom";
 import {StatsProps} from "../types";
 
 const Stats = ({data}: StatsProps) => {
@@ -15,11 +15,22 @@ const Stats = ({data}: StatsProps) => {
         }
     }
 
+    const redirectToCreatePostPage = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        if (user.isVerified === false) {
+            e.preventDefault()
+        }
+    }
+
+    const buttonStyle = user.isVerified ?
+        'py-4 px-5 text-xl border border-blue-400 text-blue-400 rounded-xl hover:text-white hover:bg-blue-400'
+        :
+        'py-4 px-5 text-xl border border-grey-400 text-gray-400 rounded-xl'
+
     const button = (
         <div className='w-full mt-3 flex justify-center'>
-            <button className='py-4 px-5 text-xl border border-blue-400 text-blue-400 rounded-xl hover:text-white hover:bg-blue-400'>
+            <Link onClick={redirectToCreatePostPage} to='/create-post' className={buttonStyle}>
                 Create Post
-            </button>
+            </Link>
         </div>
     )
 
@@ -57,7 +68,12 @@ const Stats = ({data}: StatsProps) => {
     return (
         <div className="mt-10 mx-3 col-span-3">
             {element}
-            {button}
+            {(user.role === 'Company' || user.role === 'Doctor') && button}
+            {!user.isVerified &&
+                <p className='text-xs text-gray-400 text-center mt-1'>
+                    You have to be verified in order to create post
+                </p>
+            }
         </div>
     )
 }

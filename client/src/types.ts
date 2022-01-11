@@ -70,6 +70,12 @@ export type EditUserCardFormInputs = {
     position: string
 }
 
+export type CreatePostInputs = {
+    title: string,
+    text: string,
+    img: string
+}
+
 export type MapProps = {
     lat: number,
     lng: number

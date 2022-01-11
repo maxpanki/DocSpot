@@ -9,6 +9,7 @@ import {QAPage} from "./pages/QAPage";
 import {ChatPage} from "./pages/ChatPage";
 import {QuestionPage} from "./pages/QuestionPage";
 import {Logout} from "./components/Logout";
+import {CreatePostPage} from "./pages/CreatePostPage";
 
 
 export const useRoutes = (isAuthenticated: boolean) => {
@@ -22,6 +23,7 @@ export const useRoutes = (isAuthenticated: boolean) => {
                 <Route path='/' element={<MainPage />} />
                 <Route path='/chat' element={<ChatPage/>} />
                 <Route path='/logout' element={<Logout />} />
+                <Route path='/create-post' element={<CreatePostPage />} />
                 <Route path='*' element={<Navigate to='/feed' />} />
             </Routes>
         )
