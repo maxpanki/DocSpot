@@ -14,8 +14,7 @@ const schema = new Schema({
     address: {type: String},
     location: {type: String},
     avatar: {type: String, required: true, default: 'defaultAvatar.bmp'},
-    activities: {type: Number, required: true, default: 0},
-    workingPlace: {type: Types.ObjectId, ref: 'User'}
+    activities: {type: Number, required: true, default: 0}
 })
 
 module.exports = model('User', schema)

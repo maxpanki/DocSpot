@@ -8,8 +8,8 @@ export const CreatePostPage = () => {
 
     const {callPopup, token} = useContext(AuthContext)
 
-    const { loading, error, request, clearError } = useHttp()
-    const { register, handleSubmit, formState: { errors } } = useForm<CreatePostInputs>()
+    const { loading, error, clearError } = useHttp()
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<CreatePostInputs>()
 
     useEffect(() => {
         if (error != null) {
@@ -37,6 +37,7 @@ export const CreatePostPage = () => {
                 }
             }).then(
                 (res) => {
+                    reset()
                     callPopup(res.status.toString(), 'success')
                 }
             )

@@ -1,8 +1,9 @@
 import {Router} from 'express'
-import bcryptjs from "bcryptjs";
+import * as bcryptjs from "bcryptjs";
 
 const auth = require('../middleware/auth.middleware')
 const User = require('../models/User')
+const Post = require('../models/Post')
 const router = Router()
 
 // /api/profile/edit
@@ -20,7 +21,8 @@ router.post(
             if (body.location) objForUpdate.location = body.location
             if (body.address) objForUpdate.address = body.address
             if (body.phoneNumber) objForUpdate.phoneNumber = body.phoneNumber
-            if (body.position) objForUpdate.address = body.position
+            if (body.position) objForUpdate.position = body.position
+
             if (req.files) {
                 const {avatar} = req.files
                 avatar.mv("./client/public/uploads/" + avatar.name)
@@ -40,13 +42,13 @@ router.post(
 
     })
 
-// /api/profile/:id
-router.get(
-    '/:id',
+// /api/profile/
+router.post(
+    '/',
     auth,
     async (req:any , res:any) => {
         try {
-            const {id} = req.params
+            const {id} = req.body
 
             let candidate = await User.findById(id)
             if (!candidate) {
@@ -56,6 +58,34 @@ router.get(
 
             res.json({
                 user
+            })
+
+        } catch (e) {
+            res.status(500).json({
+                message: 'Something went wrong, please try again later.'
+            })
+        }
+    })
+
+// /api/profile/getPostActivity
+router.post(
+    '/getPostActivity',
+    auth,
+    async (req:any , res:any) => {
+        try {
+            const {userId} = req.body
+
+            let candidate = await Post.find({owner: userId})
+            if (!candidate) {
+                return res.status(400).json({ message: 'Posts not found.'})
+            }
+            let postsActivity = 0
+            candidate.map((post: any) => {
+                postsActivity += post.activity
+            })
+
+            res.json({
+                postsActivity
             })
 
         } catch (e) {

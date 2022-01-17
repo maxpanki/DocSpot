@@ -17,6 +17,7 @@ export const useRoutes = (isAuthenticated: boolean) => {
         return (
             <Routes>
                 <Route path='/feed' element={<FeedPage/>} />
+                <Route path='/feed/:hashtag' element={<FeedPage/>} />
                 <Route path='/qa' element={<QAPage/>} />
                 <Route path='/question' element={<QuestionPage />} />
                 <Route path='/profile/:id' element={<ProfilePage/>} />

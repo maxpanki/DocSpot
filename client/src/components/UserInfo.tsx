@@ -2,10 +2,12 @@ import React, {useContext} from "react";
 import ProfileDataLine from "../elements/ProfileDataLine";
 import Map from "../elements/Map";
 import {AuthContext} from "../context/AuthContext";
+import {useHttp} from "../hooks/http.hook";
 
 export const UserInfo = ({user, changeMode}: any) => {
 
-    const auth = useContext(AuthContext)
+    const {token, callPopup, userId} = useContext(AuthContext)
+    const {request, loading} = useHttp()
 
     let coordinates
     if (user.location) {
@@ -13,6 +15,18 @@ export const UserInfo = ({user, changeMode}: any) => {
         coordinates = {
             lat: +array[0],
             lng: +array[1]
+        }
+    }
+
+    const createConversation = async () => {
+        try {
+            const res = await request(`/api/messenger/newConversation`, 'POST', {
+                receiverId: user._id
+            }, {
+                Authorization: `Bearer ${token}`
+            })
+        } catch (e: any) {
+            console.log(e.message)
         }
     }
 
@@ -31,7 +45,7 @@ export const UserInfo = ({user, changeMode}: any) => {
                 <div className='border-b pb-3 border-gray-300'>
                     <div>
                         <div className='flex justify-center'>
-                            <img className="block max-h-40 rounded-full mb-5"
+                            <img className="block max-h-40 rounded-full mt-2 mb-5"
                                  src={'/uploads/' + user.avatar}
                                  alt="Avatar"/>
                         </div>
@@ -55,13 +69,22 @@ export const UserInfo = ({user, changeMode}: any) => {
                 </div>
             }
             <div className='w-full mt-3 flex justify-center'>
-                { user._id === auth.userId &&
+                { user._id === userId &&
                     <button
                         className='py-2 w-1/2 text-xl rounded-xl text-white bg-blue-500 hover:bg-blue-600'
                         onClick={() => {
-                            changeMode('edit')}
-                        }>
+                            changeMode('edit')
+                        }}>
                         Edit
+                    </button>
+                }
+                { user._id !== userId &&
+                    <button
+                        className='py-2 w-1/2 text-xl rounded-xl text-white bg-blue-500 hover:bg-blue-600'
+                        onClick={() => {
+                            createConversation()
+                        }}>
+                        Send a message
                     </button>
                 }
             </div>

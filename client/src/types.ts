@@ -55,7 +55,12 @@ export type EditUserCardProps = {
 }
 
 export type StatsProps = {
-    data: any
+    data: any,
+    postsActivity: string
+}
+
+export type RecommendedHashtagsProps = {
+    tags: any
 }
 
 export type EditUserCardFormInputs = {
@@ -74,6 +79,24 @@ export type CreatePostInputs = {
     title: string,
     text: string,
     img: string
+}
+
+export type CreateCommentInputs = {
+    text: string,
+}
+
+export type AddMessageInputs = {
+    text: string,
+}
+
+export type CommentFormProps = {
+    post: string,
+    refreshComments: () => Promise<void>
+}
+
+export type PostsProps = {
+    posts: any,
+    user?: any
 }
 
 export type MapProps = {

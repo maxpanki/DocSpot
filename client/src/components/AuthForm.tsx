@@ -7,7 +7,7 @@ import {AuthContext} from "../context/AuthContext";
 const AuthForm = ({callPopup}: AuthFormProps) => {
     const auth = useContext(AuthContext)
     const {loading, error, request, clearError} = useHttp()
-    const { register, handleSubmit, watch, formState: { errors } } = useForm<AuthFormInputs>();
+    const { register, handleSubmit, formState: { errors } } = useForm<AuthFormInputs>();
 
     useEffect(() => {
         if (error != null) {

@@ -17,7 +17,9 @@ export const ProfilePage = () => {
 
     const getUser = useCallback( async () => {
         try {
-            const fetched = await request(`/api/profile/${userId}`, 'GET', null, {
+            const fetched = await request(`/api/profile/`, 'POST', {
+                id: userId
+            }, {
                 Authorization: `Bearer ${token}`
             })
             setUser(fetched)

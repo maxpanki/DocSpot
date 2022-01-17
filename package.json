@@ -7,7 +7,8 @@
     "start": "node app.ts",
     "server": "nodemon app.ts",
     "client": "npm run start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "socket": "nodemon index.ts --prefix socket",
+    "dev": "concurrently \"npm run server\" \"npm run socket\" \"npm run client\""
   },
   "keywords": [
     "dyplom",

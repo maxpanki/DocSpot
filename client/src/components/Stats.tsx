@@ -2,16 +2,25 @@ import React from "react";
 import { Link } from "react-router-dom";
 import {StatsProps} from "../types";
 
-const Stats = ({data}: StatsProps) => {
+const Stats = ({data, postsActivity}: StatsProps) => {
+
+    console.log('SHOWED')
 
     const user = data.user
-
     const getName = () => {
         if (user.personName) {
             return user.personName + ' ' + user.personSecondName
         }
         if (user.companyName) {
             return user.companyName
+        }
+    }
+
+    const getIsVerifiedText = () => {
+        if (user.isVerified) {
+            return 'Verified'
+        } else {
+            return 'Not verified'
         }
     }
 
@@ -50,23 +59,23 @@ const Stats = ({data}: StatsProps) => {
             </div>
             <div className='text-gray-500 font-light text-sm pl-8 py-8 leading-loose'>
                 <div className='grid grid-cols-2 justify-items-stretch'>
-                    <div className='justify-self-end pr-2'>Profile Views:</div>
-                    <div>200</div>
+                    <div className='justify-self-end pr-2'>Your status:</div>
+                    <div>{getIsVerifiedText()}</div>
                 </div>
                 <div className='grid grid-cols-2 justify-items-stretch'>
                     <div className='justify-self-end pr-2'>Your Activity:</div>
-                    <div>1500</div>
+                    <div>{user.activities}</div>
                 </div>
                 <div className='grid grid-cols-2 justify-items-stretch'>
                     <div className='justify-self-end pr-2'>Your Posts Activity:</div>
-                    <div>56.7k</div>
+                    <div>{postsActivity}</div>
                 </div>
             </div>
         </div>
     )
 
     return (
-        <div className="mt-10 mx-3 col-span-3">
+        <div className="mx-3 col-span-3">
             {element}
             {(user.role === 'Company' || user.role === 'Doctor') && button}
             {!user.isVerified &&

@@ -54,12 +54,13 @@ const EditUserCard = ({data, changeMode}: EditUserCardProps) => {
             if (data.phoneNumber){
                 formData.append('phoneNumber', data.phoneNumber)
             }
-            if (data.avatar[0]){
-                formData.append('avatar', data.avatar[0])
-            }
             if (data.position){
                 formData.append('position', data.position)
             }
+            if (data.avatar[0]){
+                formData.append('avatar', data.avatar[0])
+            }
+
             const res = await fetch('/api/profile/edit', {
                 method: 'POST',
                 body: formData,
@@ -121,7 +122,7 @@ const EditUserCard = ({data, changeMode}: EditUserCardProps) => {
                             <input id='address' placeholder='Enter company address ...' {...register('address')} />
                         </div>
                     }
-                    { user.role === 'doctor' &&
+                    { user.role === 'Doctor' &&
                         <div>
                             <label htmlFor='position'>Enter your position:</label>
                             <input id='position' placeholder='Enter position ...' {...register('position')} />

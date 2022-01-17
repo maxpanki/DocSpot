@@ -1,13 +1,10 @@
-import React, {useContext} from "react";
-import {AuthContext} from "../context/AuthContext";
+import React from "react";
 import {UserInfo} from "./UserInfo";
 import {Posts} from "./Posts";
 
 export const UserCard = ({data, posts, changeMode}: any) => {
 
-    const auth = useContext(AuthContext)
     const {user} = data
-    const comments = null
 
     return(
         <div>
@@ -21,7 +18,7 @@ export const UserCard = ({data, posts, changeMode}: any) => {
                         </div>
                     }
                     {
-                        posts.length !== 0 && <Posts posts={posts} user={user} comments={comments} />
+                        posts.length !== 0 && <Posts posts={posts} user={user} />
                     }
                 </div>
             </div>
