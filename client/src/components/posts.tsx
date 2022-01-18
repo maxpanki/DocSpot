@@ -7,7 +7,7 @@ export const Posts = ({posts, user}: PostsProps) => {
 
     const [numberOfPosts, setNumberOfPosts] = useState(3)
 
-    const elements = posts.map((post: any) => {
+    const elements = posts.reverse().map((post: any) => {
         let userData
         if (!user) {
             userData = post.owner[0]
@@ -21,7 +21,7 @@ export const Posts = ({posts, user}: PostsProps) => {
 
     return (
         <div className="mx-3 mb-10 col-span-6">
-            {elements.slice(elements.length - numberOfPosts, elements.length)}
+            {elements.slice(0, numberOfPosts)}
             { elements && elements.length > numberOfPosts &&
                 <button className='text-sm text-blue-500 bg-opacity-50 w-full' type='button' onClick={() => {
                     let value = 3

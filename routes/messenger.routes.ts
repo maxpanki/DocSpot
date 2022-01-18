@@ -12,11 +12,16 @@ router.post(
     async (req:any, res:any) => {
         try{
             const senderId = req.user.userId
-            const {receiverId} = req.body
+            const {receiverId, secretName} = req.body
 
-            const newConversation = new Conversation({
-                members:[senderId, receiverId]
-            })
+            let objForCreate: {[k: string]: any} = {}
+            objForCreate.members = [senderId, receiverId]
+            if (secretName) {
+                objForCreate.secretName = secretName
+                objForCreate.type = 'Secret'
+            }
+
+            const newConversation = new Conversation(objForCreate)
             await newConversation.save()
 
             res.status(201).json({

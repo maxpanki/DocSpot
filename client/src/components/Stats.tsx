@@ -4,8 +4,6 @@ import {StatsProps} from "../types";
 
 const Stats = ({data, postsActivity}: StatsProps) => {
 
-    console.log('SHOWED')
-
     const user = data.user
     const getName = () => {
         if (user.personName) {

@@ -24,6 +24,7 @@ app.use('/api/post', require('./routes/posts.routes'))
 app.use('/api/comments', require('./routes/comments.routes'))
 app.use('/api/hashtags', require('./routes/hashtags.routes'))
 app.use('/api/messenger', require('./routes/messenger.routes'))
+app.use('/api/qa', require('./routes/qa.routes'))
 
 async function start() {
     try{

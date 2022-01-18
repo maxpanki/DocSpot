@@ -1,9 +1,8 @@
 import React, {useContext, useEffect, useState} from "react";
 import MainMenuNavElem from "../elements/MainMenuNavElem";
-import {bellSVG, listSVG, logout, messageSVG, portraitSVG, questionSVG} from "../img/svg/svg";
+import { listSVG, logout, messageSVG, portraitSVG, questionSVG } from "../img/svg/svg";
 import {HeaderProps} from "../types";
 import {Link} from "react-router-dom";
-import MainMenuToggleElem from "../elements/MainMenuToggleElem";
 import {AuthContext} from "../context/AuthContext";
 
 const Header = ({isAuthenticated}: HeaderProps) => {
@@ -16,12 +15,11 @@ const Header = ({isAuthenticated}: HeaderProps) => {
     const menuElements = () => {
         if (isAuthenticated) {
             return(
-                <div className="text-xs h-14 col-end-13 col-span-6 grid grid-cols-7">
+                <div className="text-xs h-14 col-end-13 col-span-5 grid grid-cols-6">
                     <MainMenuNavElem message='My Profile' svg={portraitSVG} actionLink={'/profile/' + auth.userId} />
                     <MainMenuNavElem message='Feed' svg={listSVG} actionLink='/feed' />
                     <MainMenuNavElem message='Q&A' svg={questionSVG} actionLink='/qa' />
                     <MainMenuNavElem message='Messages' svg={messageSVG} actionLink='/chat' />
-                    <MainMenuToggleElem message='Notifications' svg={bellSVG} />
                     <MainMenuNavElem message='Log out' svg={logout} actionLink='/logout' />
                     <div className='pt-1 grid justify-items-center'>
                         <img className="block h-11 rounded-full"

@@ -3,11 +3,13 @@ import ProfileDataLine from "../elements/ProfileDataLine";
 import Map from "../elements/Map";
 import {AuthContext} from "../context/AuthContext";
 import {useHttp} from "../hooks/http.hook";
+import {useNavigate} from "react-router-dom";
 
 export const UserInfo = ({user, changeMode}: any) => {
 
-    const {token, callPopup, userId} = useContext(AuthContext)
-    const {request, loading} = useHttp()
+    const {token, userId} = useContext(AuthContext)
+    const navigate = useNavigate()
+    const {request} = useHttp()
 
     let coordinates
     if (user.location) {
@@ -20,11 +22,12 @@ export const UserInfo = ({user, changeMode}: any) => {
 
     const createConversation = async () => {
         try {
-            const res = await request(`/api/messenger/newConversation`, 'POST', {
+            await request(`/api/messenger/newConversation`, 'POST', {
                 receiverId: user._id
             }, {
                 Authorization: `Bearer ${token}`
             })
+            navigate('/chat')
         } catch (e: any) {
             console.log(e.message)
         }

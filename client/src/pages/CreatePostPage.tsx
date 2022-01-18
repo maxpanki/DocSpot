@@ -38,7 +38,7 @@ export const CreatePostPage = () => {
             }).then(
                 (res) => {
                     reset()
-                    callPopup(res.status.toString(), 'success')
+                    callPopup('Post was successfully added.', 'success')
                 }
             )
         } catch (e: any) {

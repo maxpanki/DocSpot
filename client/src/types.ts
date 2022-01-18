@@ -81,6 +81,12 @@ export type CreatePostInputs = {
     img: string
 }
 
+export type QaInputs = {
+    title: string,
+    text: string,
+    img: string
+}
+
 export type CreateCommentInputs = {
     text: string,
 }
