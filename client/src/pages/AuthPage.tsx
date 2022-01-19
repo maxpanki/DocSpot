@@ -1,14 +1,12 @@
-import React, {useRef, useState} from 'react'
+import React, { useRef, useState} from 'react'
 import AuthForm from '../components/AuthForm'
-import RegForm from "../components/RegForm";
-import {Alerts} from "../elements/Alerts";
+import RegForm from '../components/RegForm'
+import {Alerts} from '../elements/Alerts'
 
 export const AuthPage = () => {
-    //User data information object creation
-    const [message, setMessage ] = useState('')
-    const [type, setType] = useState('')
+    const [ message, setMessage ] = useState('')
+    const [ type, setType ] = useState('')
 
-    //change popup data
     const callPopup = (message: string, type: string) => {
         setMessage(message)
         setType(type)

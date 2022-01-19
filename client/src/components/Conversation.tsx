@@ -1,17 +1,16 @@
-import React, {useCallback, useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 
-import {Comments} from "./Comments";
 import {useHttp} from "../hooks/http.hook";
 import {AuthContext} from "../context/AuthContext";
-import {Link} from "react-router-dom";
 import {Loader} from "./Loader";
 import {lock} from "../img/svg/svg";
+import {ConversationProps, UserType} from "../types";
 
-export const Conversation = ({ conversation, setActiveConversationData }: any) => {
+export const Conversation = ({ conversation, setActiveConversationData }: ConversationProps) => {
 
     const {userId, token, callPopup} = useContext(AuthContext)
     const {request} = useHttp()
-    const [secondUser, setSecondUser] = useState<any>(null)
+    const [secondUser, setSecondUser] = useState<UserType | null>(null)
 
     const getSecondUser = async (secondUserId: string) => {
         try {
@@ -21,24 +20,28 @@ export const Conversation = ({ conversation, setActiveConversationData }: any) =
                 Authorization: `Bearer ${token}`
             })
             setSecondUser(res.user)
-        } catch (e: any) {
-            callPopup(e.message, 'error')
+        } catch (e) {
+            callPopup((e as Error).message, 'error')
         }
     }
 
     const changeActiveConversation = () => {
-        setActiveConversationData({
-            user: secondUser,
-            conversation: conversation
-        })
+        if (secondUser) {
+            setActiveConversationData({
+                user: secondUser,
+                conversation: conversation
+            })
+        }
     }
 
     useEffect(() => {
         const secondUserId = conversation.members.find((m: string) => m !== userId)
-        getSecondUser(secondUserId)
+        if (secondUserId) {
+            getSecondUser(secondUserId)
+        }
     }, [])
 
-    const getName = (user: any) => {
+    const getName = (user: UserType) => {
         if (conversation.type === 'Basic') {
             if (user.personName) {
                 return user.personName + ' ' + user.personSecondName

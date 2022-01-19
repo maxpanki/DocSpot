@@ -4,10 +4,9 @@ import {useHttp} from "../hooks/http.hook";
 import {EditUserCardFormInputs, EditUserCardProps} from "../types";
 import {AuthContext} from "../context/AuthContext";
 
-const EditUserCard = ({data, changeMode}: EditUserCardProps) => {
+const EditUserCard = ({user, changeMode}: EditUserCardProps) => {
 
     const { token, userId, callPopup } = useContext(AuthContext)
-    const user = data.user
     const preloadedValues = {
         companySize: user.companySize,
         phoneNumber: user.phoneNumber,
@@ -17,8 +16,8 @@ const EditUserCard = ({data, changeMode}: EditUserCardProps) => {
         email: user.email
     }
 
-    const {loading, error, request, clearError} = useHttp()
-    const { register, handleSubmit, watch, formState: { errors } } = useForm<EditUserCardFormInputs>({
+    const {loading, error, clearError} = useHttp()
+    const { register, handleSubmit, formState: { errors } } = useForm<EditUserCardFormInputs>({
         defaultValues: preloadedValues
     });
 
@@ -61,7 +60,7 @@ const EditUserCard = ({data, changeMode}: EditUserCardProps) => {
                 formData.append('avatar', data.avatar[0])
             }
 
-            const res = await fetch('/api/profile/edit', {
+            await fetch('/api/profile/edit', {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -81,9 +80,8 @@ const EditUserCard = ({data, changeMode}: EditUserCardProps) => {
                     }
                 }
             )
-        } catch (e: any) {
-            alert(e.message)
-            callPopup('Data was not saved. ' + e.message, 'error')
+        } catch (e) {
+            callPopup('Data was not saved. ' + (e as Error).message, 'error')
         }
     }
 

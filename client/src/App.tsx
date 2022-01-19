@@ -1,12 +1,12 @@
 import React, {useEffect, useRef, useState} from 'react'
 import {BrowserRouter as Router} from 'react-router-dom'
 import {useRoutes} from './routes'
-import Header from "./components/Header";
-import {Footer} from "./components/Footer";
-import {useAuth} from "./hooks/auth.hook";
-import { AuthContext } from './context/AuthContext';
-import {Loader} from "./components/Loader";
-import {Alerts} from "./elements/Alerts";
+import Header from "./components/Header"
+import {Footer} from "./components/Footer"
+import {useAuth} from "./hooks/auth.hook"
+import { AuthContext } from './context/AuthContext'
+import {Loader} from "./components/Loader"
+import {Alerts} from "./elements/Alerts"
 
 function App() {
 

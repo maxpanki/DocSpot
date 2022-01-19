@@ -1,19 +1,19 @@
-import React, {Fragment, ReactElement, useCallback, useContext, useEffect, useState} from "react";
+import React, {useCallback, useContext, useEffect, useState} from "react"
 
-import {Comments} from "./Comments";
-import {useHttp} from "../hooks/http.hook";
-import {AuthContext} from "../context/AuthContext";
-import {Link} from "react-router-dom";
+import {Comments} from "./Comments"
+import {useHttp} from "../hooks/http.hook"
+import {AuthContext} from "../context/AuthContext"
+import {Link} from "react-router-dom"
+import {PostCardProps} from "../types";
 
-export const PostCard = ({post, user}: any) => {
+export const PostCard = ({post, user}: PostCardProps) => {
 
-    const texo = "<div> Is is clear? <div/>"
     const {token, callPopup} = useContext(AuthContext)
     const {request} = useHttp()
     const [isLiked, setIsLiked] = useState(false)
     const [likeNumber, setLikeNumber] = useState(0)
 
-    const checkIsLiked = useCallback( async (postId: number) => {
+    const checkIsLiked = useCallback( async (postId: string) => {
         try {
             const res = await request(`/api/post/isLiked`, 'POST', {
                 postId: postId
@@ -22,10 +22,10 @@ export const PostCard = ({post, user}: any) => {
             })
 
             setIsLiked(res.message)
-        } catch (e: any) {
-            callPopup(e.message, 'error')
+        } catch (e) {
+            callPopup((e as Error).message, 'error')
         }
-    }, [token, request, setIsLiked])
+    }, [token, request, setIsLiked, callPopup])
 
     useEffect(() => {
         checkIsLiked(post._id)
@@ -42,14 +42,13 @@ export const PostCard = ({post, user}: any) => {
     }
 
     const highlightHashtags = (text: string) => {
-        const result = text.replace(/#(\w+)/g, '<a class="text-blue-500 font-semibold" href="/feed/$1">#$1</a>');
-        return result;
+        return text.replace(/#(\w+)/g, '<a class="text-blue-500 font-semibold" href="/feed/$1">#$1</a>');
     }
 
-    const toggleLike = useCallback( async (postId: number) => {
+    const toggleLike = useCallback( async (postId: string) => {
         try {
             if (!isLiked) {
-                const res = await request(`/api/post/like`, 'POST', {
+                await request(`/api/post/like`, 'POST', {
                     postId: postId
                 }, {
                     Authorization: `Bearer ${token}`
@@ -58,7 +57,7 @@ export const PostCard = ({post, user}: any) => {
                 setIsLiked(true)
                 setLikeNumber(likeNumber + 1)
             } else {
-                const res = await request(`/api/post/dislike`, 'POST', {
+                await request(`/api/post/dislike`, 'POST', {
                     postId: postId
                 }, {
                     Authorization: `Bearer ${token}`
@@ -68,10 +67,10 @@ export const PostCard = ({post, user}: any) => {
                 setLikeNumber(likeNumber -1)
             }
 
-        } catch (e: any) {
-            callPopup(e.message, 'error')
+        } catch (e) {
+            callPopup((e as Error).message, 'error')
         }
-    }, [token, request, likeNumber, isLiked, setIsLiked, setLikeNumber])
+    }, [token, request, likeNumber, isLiked, setIsLiked, setLikeNumber, callPopup])
 
     return(
         <React.Fragment>
@@ -94,7 +93,7 @@ export const PostCard = ({post, user}: any) => {
                     { post.img &&
                         <img className='w-full border rounded-xl mt-5'
                              src={'/uploads/posts/' + post.img}
-                             alt='Attached image'/>
+                             alt='Attached file'/>
                     }
                 </div>
                 <div className='flex justify-end grid grid-cols-8 mt-4'>

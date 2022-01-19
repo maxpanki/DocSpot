@@ -1,13 +1,13 @@
 import React, {useContext, useEffect} from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import {useHttp} from "../hooks/http.hook";
-import {AuthFormInputs, AuthFormProps} from "../types";
-import {AuthContext} from "../context/AuthContext";
+import {useHttp} from '../hooks/http.hook'
+import {AuthFormInputs, AuthFormProps} from '../types'
+import {AuthContext} from '../context/AuthContext'
 
 const AuthForm = ({callPopup}: AuthFormProps) => {
     const auth = useContext(AuthContext)
     const {loading, error, request, clearError} = useHttp()
-    const { register, handleSubmit, formState: { errors } } = useForm<AuthFormInputs>();
+    const { register, handleSubmit, formState: { errors } } = useForm<AuthFormInputs>()
 
     useEffect(() => {
         if (error != null) {
@@ -25,7 +25,7 @@ const AuthForm = ({callPopup}: AuthFormProps) => {
             auth.login(res.token, res.userId, res.avatar)
             callPopup('Successfully logged in', 'success')
         } catch (e) {}
-    };
+    }
 
     return (
         <React.Fragment>
@@ -44,7 +44,7 @@ const AuthForm = ({callPopup}: AuthFormProps) => {
                 <button type='submit' disabled={loading}>Log In</button>
             </form>
         </React.Fragment>
-    );
+    )
 }
 
 export default AuthForm

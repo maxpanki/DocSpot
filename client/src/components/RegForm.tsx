@@ -1,11 +1,11 @@
-import React, {useEffect, useRef} from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import {useHttp} from "../hooks/http.hook";
-import {RegFormInputs, RegFormProps} from "../types";
+import { useHttp } from '../hooks/http.hook'
+import { RegFormInputs, RegFormProps } from '../types'
 
 const RegForm = ({callPopup}:RegFormProps) => {
     const { loading, error, request, clearError } = useHttp()
-    const { register, handleSubmit, watch, formState: { errors } } = useForm<RegFormInputs>();
+    const { register, handleSubmit, watch, formState: { errors } } = useForm<RegFormInputs>()
 
     useEffect(() => {
         if (error != null) {
@@ -36,18 +36,18 @@ const RegForm = ({callPopup}:RegFormProps) => {
                 callPopup(res.message, 'success')
             }
         } catch (e) {
-
+            callPopup((e as Error).message, 'error')
         }
-    };
+    }
 
     const isCompanyFieldsDisplayed = () => {
         const role = watch().role
 
-        return role === 'Company';
+        return role === 'Company'
     }
 
-    const password = useRef({});
-    password.current = watch("password", "");
+    const password = useRef({})
+    password.current = watch('password', '')
 
     return (
         <React.Fragment>

@@ -1,10 +1,9 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import {StatsProps} from "../types";
+import React from "react"
+import { Link } from "react-router-dom"
+import {StatsProps} from "../types"
 
-const Stats = ({data, postsActivity}: StatsProps) => {
+const Stats = ({user, postsActivity}: StatsProps) => {
 
-    const user = data.user
     const getName = () => {
         if (user.personName) {
             return user.personName + ' ' + user.personSecondName
@@ -23,7 +22,7 @@ const Stats = ({data, postsActivity}: StatsProps) => {
     }
 
     const redirectToCreatePostPage = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        if (user.isVerified === false) {
+        if (!user.isVerified) {
             e.preventDefault()
         }
     }
@@ -85,4 +84,4 @@ const Stats = ({data, postsActivity}: StatsProps) => {
     )
 }
 
-export default Stats;
+export default Stats

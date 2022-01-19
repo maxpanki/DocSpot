@@ -1,15 +1,9 @@
-import {ReactElement} from "react";
-import exp from "constants";
+import {ReactElement} from "react"
 
 export type MainMenuNavElemProps = {
     message: string,
     svg: ReactElement,
     actionLink: string,
-}
-
-export type MainMenuToggleElemProps = {
-    message: string,
-    svg: ReactElement,
 }
 
 export type HeaderProps = {
@@ -50,17 +44,17 @@ export type ProfileDataLineProps = {
 }
 
 export type EditUserCardProps = {
-    data: any,
+    user: UserType,
     changeMode: (stateValue: string) => void,
 }
 
 export type StatsProps = {
-    data: any,
+    user: UserType,
     postsActivity: string
 }
 
 export type RecommendedHashtagsProps = {
-    tags: any
+    tags: TagType[]
 }
 
 export type EditUserCardFormInputs = {
@@ -101,11 +95,134 @@ export type CommentFormProps = {
 }
 
 export type PostsProps = {
-    posts: any,
-    user?: any
+    posts: ExtendedPostType[] | PostType[],
+    user?: UserType
+}
+
+export type PostCardProps = {
+    post: ExtendedPostType | PostType,
+    user: UserType
 }
 
 export type MapProps = {
     lat: number,
     lng: number
+}
+
+export type MessageType = {
+    _id: string
+    conversationId: string,
+    owner: string,
+    text: string
+}
+
+export type ArrivalMessageType = {
+    _id: string,
+    owner: string,
+    text: string
+}
+
+export type ConversationType = {
+    _id: string
+    members: string[],
+    type: string,
+    secretName?: string
+}
+
+export type UserType = {
+    _id: string,
+    email: string,
+    password: string,
+    role: string,
+    isVerified: boolean,
+    companyName?: string,
+    companySize?: string,
+    personName?: string,
+    personSecondName?: string,
+    position?: string,
+    phoneNumber?: string,
+    address?: string,
+    location?: string,
+    avatar: string,
+    activities: number
+}
+
+export type UserCardProps = {
+    user: UserType,
+    posts: PostType[],
+    changeMode: (stateValue: string) => void
+}
+
+export type ConversationProps = {
+    conversation: ConversationType,
+    setActiveConversationData: (value: ConversationDataType) => void
+}
+
+export type QaFormProps = {
+    add: (qa: QaType) => void
+}
+
+export type ConversationDataType = {
+    user: UserType,
+    conversation: ConversationType
+}
+
+export type MessagesProps = {
+    conversationData: ConversationDataType,
+    messages:MessageType[],
+    refreshMessages: (savedMessage: MessageType) => void
+}
+
+export type PostType = {
+    _id: string,
+    title: string,
+    text: string,
+    img?: string,
+    likes: number,
+    activity: number,
+    date: string,
+    owner: string
+}
+
+export type ExtendedPostType = {
+    _id: string,
+    title: string,
+    text: string,
+    img?: string,
+    likes: number,
+    activity: number,
+    date: string,
+    owner: UserType[]
+}
+
+export type TagType = {
+    _id: string
+    tag: string,
+    activity: number
+}
+
+export type QaType = {
+    _id: string
+    title: string,
+    text: string,
+    img?: string,
+    date: string,
+    owner: string
+}
+
+export type CommentsProps = {
+    postId: string
+}
+
+export type CommentCardProps = {
+    comment: ExtendedCommentType
+}
+
+export type ExtendedCommentType = {
+    _id: string,
+    text: string,
+    likes: number,
+    date: string,
+    post: string,
+    owner: UserType[]
 }

@@ -1,17 +1,17 @@
-import React, {useCallback, useContext, useEffect, useState} from "react";
+import React, {useCallback, useContext, useEffect, useState} from "react"
 
-import avatar from '../img/mocup_avatar.png'
-import CommentForm from "./CommentForm";
-import {useHttp} from "../hooks/http.hook";
-import {Loader} from "./Loader";
-import {AuthContext} from "../context/AuthContext";
-import {CommentCard} from "./CommentCard";
+import CommentForm from "./CommentForm"
+import {useHttp} from "../hooks/http.hook"
+import {Loader} from "./Loader"
+import {AuthContext} from "../context/AuthContext"
+import {CommentCard} from "./CommentCard"
+import {CommentsProps, ExtendedCommentType} from "../types";
 
-export const Comments = ({ postId }: any) => {
+export const Comments = ({ postId }: CommentsProps) => {
 
-    const {token, userId, avatar, callPopup} = useContext(AuthContext)
+    const {token, avatar, callPopup} = useContext(AuthContext)
     const { request } = useHttp()
-    const [comments, setComments] = useState(null)
+    const [comments, setComments] = useState<ExtendedCommentType[]>([])
     const [numberOfComments, setNumberOfComments] = useState(3)
 
     const getComments = useCallback( async () => {
@@ -22,10 +22,10 @@ export const Comments = ({ postId }: any) => {
                 Authorization: `Bearer ${token}`
             })
             setComments(fetched.comments)
-        } catch (e: any) {
-            callPopup(e.message, 'error')
+        } catch (e) {
+            callPopup((e as Error).message, 'error')
         }
-    }, [token, userId, request])
+    }, [token, request, callPopup, postId])
 
     useEffect(() => {
         getComments()
@@ -33,8 +33,7 @@ export const Comments = ({ postId }: any) => {
 
     let elements
     if (comments) {
-        // @ts-ignore
-        elements = comments.map((comment: any) => {
+        elements = comments.map((comment) => {
             return (
                 <CommentCard key={comment._id} comment={comment} />
             )

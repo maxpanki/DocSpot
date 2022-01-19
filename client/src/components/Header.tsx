@@ -1,9 +1,9 @@
-import React, {useContext, useEffect, useState} from "react";
-import MainMenuNavElem from "../elements/MainMenuNavElem";
-import { listSVG, logout, messageSVG, portraitSVG, questionSVG } from "../img/svg/svg";
-import {HeaderProps} from "../types";
-import {Link} from "react-router-dom";
-import {AuthContext} from "../context/AuthContext";
+import React, {useContext, useEffect, useState} from "react"
+import MainMenuNavElem from "../elements/MainMenuNavElem"
+import { listSVG, logout, messageSVG, portraitSVG, questionSVG } from "../img/svg/svg"
+import {HeaderProps} from "../types"
+import {Link} from "react-router-dom"
+import {AuthContext} from "../context/AuthContext"
 
 const Header = ({isAuthenticated}: HeaderProps) => {
     const auth = useContext(AuthContext)
@@ -49,4 +49,4 @@ const Header = ({isAuthenticated}: HeaderProps) => {
     )
 }
 
-export default Header;
+export default Header

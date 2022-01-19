@@ -1,9 +1,9 @@
 import React from "react";
-import {RecommendedHashtagsProps} from "../types";
+import {RecommendedHashtagsProps, TagType} from "../types";
 
 const RecommendedHashtags = ({tags}: RecommendedHashtagsProps) => {
 
-    const element = tags.map((tag: any) => {
+    const element = tags.map((tag: TagType) => {
         return (
             <a key={tag._id} href={'/feed/' + tag.tag.substring(1)} className='flex cursor-pointer'>
                 {tag.tag}

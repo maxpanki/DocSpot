@@ -1,5 +1,5 @@
-import React, {useState, forwardRef, useImperativeHandle} from "react";
-import {AlertsProps} from "../types";
+import React, {useState, forwardRef, useImperativeHandle} from "react"
+import {AlertsProps} from "../types"
 
 export const Alerts = forwardRef(({type, message}: AlertsProps, ref) => {
 

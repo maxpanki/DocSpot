@@ -1,15 +1,15 @@
-import React, {useContext} from "react";
-import {SubmitHandler, useForm} from "react-hook-form";
-import {AddMessageInputs} from "../types";
-import {useHttp} from "../hooks/http.hook";
-import {AuthContext} from "../context/AuthContext";
+import React, {useContext} from "react"
+import {SubmitHandler, useForm} from "react-hook-form"
+import {AddMessageInputs, MessagesProps, MessageType} from "../types"
+import {useHttp} from "../hooks/http.hook"
+import {AuthContext} from "../context/AuthContext"
 
-export const Messages = ({conversationData, messages, refreshMessages}: any) => {
+export const Messages = ({conversationData, messages, refreshMessages}: MessagesProps) => {
 
     const { token, callPopup, userId, avatar } = useContext(AuthContext)
     const { user, conversation } = conversationData
     const { request } = useHttp()
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<AddMessageInputs>();
+    const { register, handleSubmit, reset } = useForm<AddMessageInputs>()
 
     const onSubmit: SubmitHandler<AddMessageInputs> = async (data) => {
         try {
@@ -21,10 +21,10 @@ export const Messages = ({conversationData, messages, refreshMessages}: any) => 
             })
             refreshMessages(res.savedMessage)
             reset()
-        } catch (e: any) {
-            callPopup(e.message, 'error')
+        } catch (e) {
+            callPopup((e as Error).message, 'error')
         }
-    };
+    }
 
     const getName = () => {
         if (conversation.type === 'Basic') {
@@ -39,7 +39,7 @@ export const Messages = ({conversationData, messages, refreshMessages}: any) => 
         }
     }
 
-    const elements = messages.map((message: any) => {
+    const elements = messages.map((message: MessageType) => {
         if (message.owner === userId) {
             return(
                 <div key={message._id} className="chat-message">

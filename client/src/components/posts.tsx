@@ -1,18 +1,18 @@
-import React, {useState} from "react";
+import React, {useState} from "react"
 
-import {PostCard} from "./PostCard";
-import {PostsProps} from "../types";
+import {PostCard} from "./PostCard"
+import {ExtendedPostType, PostsProps, PostType, UserType} from "../types"
 
 export const Posts = ({posts, user}: PostsProps) => {
 
     const [numberOfPosts, setNumberOfPosts] = useState(3)
 
-    const elements = posts.reverse().map((post: any) => {
-        let userData
-        if (!user) {
+    const elements = posts.reverse().map((post: ExtendedPostType | PostType) => {
+        let userData: UserType
+        if (!user && typeof(post.owner[0]) === 'object' ) {
             userData = post.owner[0]
         } else {
-            userData = user
+            userData = (user as UserType)
         }
         return (
             <PostCard key={post._id} post={post} user={userData} />

@@ -1,19 +1,20 @@
 import React, {useCallback, useContext, useEffect, useState} from 'react'
-import Stats from "../components/Stats";
-import RecommendedHashtags from "../components/RecommendedHashtags";
-import {AuthContext} from "../context/AuthContext";
-import {useHttp} from "../hooks/http.hook";
-import {Loader} from "../components/Loader";
-import {Posts} from "../components/Posts";
-import {useParams} from "react-router-dom";
+import Stats from "../components/Stats"
+import RecommendedHashtags from "../components/RecommendedHashtags"
+import {AuthContext} from "../context/AuthContext"
+import {useHttp} from "../hooks/http.hook"
+import {Loader} from "../components/Loader"
+import {Posts} from "../components/Posts"
+import {useParams} from "react-router-dom"
+import {ExtendedPostType, TagType, UserType} from "../types"
 
 export const FeedPage = () => {
 
-    const {token, userId} = useContext(AuthContext)
-    const [user, setUser] = useState(null)
-    const [posts, setPosts] = useState(null)
+    const {token, userId, callPopup} = useContext(AuthContext)
+    const [user, setUser] = useState<UserType | null>(null)
+    const [posts, setPosts] = useState<ExtendedPostType[]>([])
     const [postsActivity, setPostsActivity] = useState('')
-    const [tags, setTags] = useState(null)
+    const [tags, setTags] = useState<TagType[]>([])
     const {request, loading} = useHttp()
     const hashtag = useParams().hashtag
 
@@ -24,20 +25,18 @@ export const FeedPage = () => {
             }, {
                 Authorization: `Bearer ${token}`
             })
-            console.log(fetched)
-            setUser(fetched)
+            setUser(fetched.user)
 
             const activity = await request(`/api/profile/getPostActivity`, 'POST', {
                 userId: fetched.user._id
             }, {
                 Authorization: `Bearer ${token}`
             })
-            console.log(activity)
             setPostsActivity(String(activity.postsActivity))
-        } catch (e: any) {
-            console.log(e.message)
+        } catch (e) {
+            callPopup((e as Error).message, 'error')
         }
-    }, [token, userId, request])
+    }, [token, userId, request, callPopup])
 
     const getTags = useCallback( async () => {
         try {
@@ -45,10 +44,10 @@ export const FeedPage = () => {
                     Authorization: `Bearer ${token}`
                 })
             setTags(fetched.tags)
-        } catch (e: any) {
-            console.log(e.message)
+        } catch (e) {
+            callPopup((e as Error).message, 'error')
         }
-    }, [token, request])
+    }, [token, request, callPopup])
 
     const getPosts = useCallback( async () => {
         try {
@@ -61,10 +60,10 @@ export const FeedPage = () => {
                     Authorization: `Bearer ${token}`
                 })
             setPosts(fetched.posts)
-        } catch (e: any) {
-            console.log(e.message)
+        } catch (e) {
+            callPopup((e as Error).message, 'error')
         }
-    }, [token, userId, request])
+    }, [token, request, callPopup, hashtag])
 
     useEffect(() => {
         getTags()
@@ -79,7 +78,7 @@ export const FeedPage = () => {
     return(
         <div>
             <div className='grid grid-cols-12 bg-gray-50 pt-10'>
-                {!loading && user && postsActivity && <Stats data={user} postsActivity={postsActivity} />}
+                {!loading && user && postsActivity && <Stats user={user} postsActivity={postsActivity} />}
                 {!loading && posts && <Posts posts={posts}/>}
                 {!loading && tags && <RecommendedHashtags tags={tags}/>}
             </div>

@@ -1,20 +1,21 @@
 import React, {useContext, useEffect, useRef, useState} from 'react'
 import {io, Socket} from "socket.io-client"
-import {AuthContext} from "../context/AuthContext";
-import {useHttp} from "../hooks/http.hook";
-import {Conversation} from "../components/Conversation";
-import {Loader} from "../components/Loader";
-import {Messages} from "../components/Messages";
+import {AuthContext} from "../context/AuthContext"
+import {useHttp} from "../hooks/http.hook"
+import {Conversation} from "../components/Conversation"
+import {Loader} from "../components/Loader"
+import {Messages} from "../components/Messages"
+import {ArrivalMessageType, ConversationDataType, ConversationType, MessageType,} from "../types"
 
 export const ChatPage = () => {
 
     const { token, callPopup, userId } = useContext(AuthContext)
     const { request, loading } = useHttp()
-    const [conversations, setConversations] = useState([])
+    const [conversations, setConversations] = useState<ConversationType[]>([])
     const socket = useRef<Socket>()
-    const [activeConversationData, setActiveConversationData] = useState<any>(null)
-    const [messages, setMessages] = useState<any>([])
-    const [arrivalMessage, setArrivalMessage] = useState<any>(null)
+    const [activeConversationData, setActiveConversationData] = useState<ConversationDataType | null>(null)
+    const [messages, setMessages] = useState<MessageType[]>([])
+    const [arrivalMessage, setArrivalMessage] = useState<ArrivalMessageType | null>(null)
 
     const getConversations = async () => {
         try {
@@ -22,19 +23,18 @@ export const ChatPage = () => {
             Authorization: `Bearer ${token}`
         })
             setConversations(res.conversations)
-        } catch (e: any) {
-            callPopup(e.message, 'error')
+        } catch (e) {
+            callPopup((e as Error).message, 'error')
         }
     }
 
-    const refreshMessages = (savedMessage: any) => {
+    const refreshMessages = (savedMessage: MessageType) => {
         socket.current?.emit('sendMessage', {
             senderId: userId,
-            receiverId: activeConversationData.user._id,
+            receiverId: activeConversationData?.user._id,
             text: savedMessage.text,
             messageId: savedMessage._id
         })
-        // @ts-ignore
         setMessages([...messages, savedMessage])
     }
 
@@ -47,15 +47,15 @@ export const ChatPage = () => {
                     Authorization: `Bearer ${token}`
                 })
                 setMessages(res.messages)
-            } catch (e: any) {
-                callPopup(e.message, 'error')
+            } catch (e) {
+                callPopup((e as Error).message, 'error')
             }
         }
     }
 
     let conversationElements
     if(conversations) {
-        conversationElements = conversations.map((conversation: any) => {
+        conversationElements = conversations.map((conversation: ConversationType) => {
             return(
                 <Conversation key={conversation._id} conversation={conversation} setActiveConversationData={setActiveConversationData} />
             )
@@ -106,7 +106,17 @@ export const ChatPage = () => {
                     {conversationElements}
                 </div>
                 {
-                    activeConversationData && messages ? <Messages conversationData={activeConversationData} messages={messages} refreshMessages={refreshMessages}/> : <span>Open a conversation to see messages</span>
+                    activeConversationData && messages ?
+                        <Messages
+                            conversationData={activeConversationData}
+                            messages={messages}
+                            refreshMessages={refreshMessages}/>
+                        :
+                        <div className='col-span-3'>
+                            <p className='text-6xl flex justify-center mt-32 text-gray-400 opacity-40'>
+                                Open a conversation to see messages
+                            </p>
+                        </div>
                 }
             </div>
         </div>

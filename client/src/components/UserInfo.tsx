@@ -1,9 +1,9 @@
-import React, {useContext} from "react";
-import ProfileDataLine from "../elements/ProfileDataLine";
-import Map from "../elements/Map";
-import {AuthContext} from "../context/AuthContext";
-import {useHttp} from "../hooks/http.hook";
-import {useNavigate} from "react-router-dom";
+import React, {useContext} from "react"
+import ProfileDataLine from "../elements/ProfileDataLine"
+import Map from "../elements/Map"
+import {AuthContext} from "../context/AuthContext"
+import {useHttp} from "../hooks/http.hook"
+import {useNavigate} from "react-router-dom"
 
 export const UserInfo = ({user, changeMode}: any) => {
 

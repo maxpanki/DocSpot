@@ -1,4 +1,4 @@
-import {Schema, model, Types} from 'mongoose'
+import {Schema, model} from 'mongoose'
 
 const schema = new Schema({
     email: {type: String, required: true, unique: true},

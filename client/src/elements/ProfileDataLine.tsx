@@ -1,5 +1,5 @@
-import React from "react";
-import {ProfileDataLineProps} from "../types";
+import React from "react"
+import {ProfileDataLineProps} from "../types"
 
 const ProfileDataLine = ({label, text}: ProfileDataLineProps) => {
     return(

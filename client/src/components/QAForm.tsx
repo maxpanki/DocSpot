@@ -1,9 +1,9 @@
 import React, {useContext} from 'react'
-import {AuthContext} from "../context/AuthContext";
-import {useForm} from "react-hook-form";
-import {QaInputs} from "../types";
+import {AuthContext} from "../context/AuthContext"
+import {useForm} from "react-hook-form"
+import {QaFormProps, QaInputs} from "../types"
 
-export const QAForm = ({ add }: any) => {
+export const QAForm = ({ add }: QaFormProps) => {
 
     const {callPopup, token} = useContext(AuthContext)
     const { register, handleSubmit, reset } = useForm<QaInputs>()

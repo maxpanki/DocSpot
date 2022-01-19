@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 export const portraitSVG = (
     <React.Fragment>
@@ -92,5 +92,5 @@ export const lock = (
 )
 
 export const logout = (
-    <img className='h-5' src="https://img.icons8.com/material/24/000000/exit.png"/>
+    <img alt='' className='h-5' src="https://img.icons8.com/material/24/000000/exit.png"/>
 )

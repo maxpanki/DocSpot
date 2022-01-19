@@ -1,18 +1,18 @@
-import React, {useCallback, useContext, useEffect, useState} from "react";
+import React, {useCallback, useContext, useEffect, useState} from "react"
 
-import {Comments} from "./Comments";
-import {useHttp} from "../hooks/http.hook";
-import {AuthContext} from "../context/AuthContext";
-import {Link} from "react-router-dom";
+import {useHttp} from "../hooks/http.hook"
+import {AuthContext} from "../context/AuthContext"
+import {Link} from "react-router-dom"
+import {CommentCardProps, UserType} from "../types";
 
-export const CommentCard = ({ comment }: any) => {
+export const CommentCard = ({ comment }: CommentCardProps) => {
 
     const {token, callPopup} = useContext(AuthContext)
     const {request} = useHttp()
     const [isLiked, setIsLiked] = useState(false)
     const [likeNumber, setLikeNumber] = useState(0)
 
-    const checkIsLiked = useCallback( async (commentId: number) => {
+    const checkIsLiked = useCallback( async (commentId: string) => {
         try {
             const res = await request(`/api/comments/isLiked`, 'POST', {
                 commentId: commentId
@@ -21,17 +21,17 @@ export const CommentCard = ({ comment }: any) => {
             })
 
             setIsLiked(res.message)
-        } catch (e: any) {
-            callPopup(e.message, 'error')
+        } catch (e) {
+            callPopup((e as Error).message, 'error')
         }
-    }, [token, request, setIsLiked])
+    }, [token, request, setIsLiked, callPopup])
 
     useEffect(() => {
         checkIsLiked(comment._id)
         setLikeNumber(comment.likes)
     }, [])
 
-    const getName = (user: any) => {
+    const getName = (user: UserType) => {
         if (user.personName) {
             return user.personName + ' ' + user.personSecondName
         }
@@ -40,10 +40,10 @@ export const CommentCard = ({ comment }: any) => {
         }
     }
 
-    const toggleLike = useCallback( async (commentId: number) => {
+    const toggleLike = useCallback( async (commentId: string) => {
         try {
             if (!isLiked) {
-                const res = await request(`/api/comments/like`, 'POST', {
+                await request(`/api/comments/like`, 'POST', {
                     commentId: commentId
                 }, {
                     Authorization: `Bearer ${token}`
@@ -52,7 +52,7 @@ export const CommentCard = ({ comment }: any) => {
                 setIsLiked(true)
                 setLikeNumber(likeNumber + 1)
             } else {
-                const res = await request(`/api/comments/dislike`, 'POST', {
+                await request(`/api/comments/dislike`, 'POST', {
                     commentId: commentId
                 }, {
                     Authorization: `Bearer ${token}`
@@ -62,10 +62,10 @@ export const CommentCard = ({ comment }: any) => {
                 setLikeNumber(likeNumber -1)
             }
 
-        } catch (e: any) {
-            callPopup(e.message, 'error')
+        } catch (e) {
+            callPopup((e as Error).message, 'error')
         }
-    }, [token, request, likeNumber, isLiked, setIsLiked, setLikeNumber])
+    }, [token, request, likeNumber, isLiked, setIsLiked, setLikeNumber, callPopup])
 
     return(
         <React.Fragment>

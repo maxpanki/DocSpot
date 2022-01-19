@@ -1,17 +1,18 @@
 import React, {useCallback, useContext, useEffect, useState} from 'react'
 import {useParams} from 'react-router-dom'
-import {useHttp} from "../hooks/http.hook";
-import {AuthContext} from "../context/AuthContext";
-import {Loader} from "../components/Loader";
-import {UserCard} from "../components/UserCard";
-import EditUserCard from "../components/EditUserCard";
+import {useHttp} from "../hooks/http.hook"
+import {AuthContext} from "../context/AuthContext"
+import {Loader} from "../components/Loader"
+import {UserCard} from "../components/UserCard"
+import EditUserCard from "../components/EditUserCard"
+import {PostType, UserType} from "../types";
 
 export const ProfilePage = () => {
     const {token, callPopup} = useContext(AuthContext)
     const {request, loading} = useHttp()
     const [mode, setMode] = useState('view')
-    const [user, setUser] = useState(null)
-    const [posts, setPosts] = useState(null)
+    const [user, setUser] = useState<UserType | null>(null)
+    const [posts, setPosts] = useState<PostType[]>([])
 
     const userId = useParams().id
 
@@ -22,11 +23,11 @@ export const ProfilePage = () => {
             }, {
                 Authorization: `Bearer ${token}`
             })
-            setUser(fetched)
-        } catch (e: any) {
-            callPopup(e.message, 'error')
+            setUser(fetched.user)
+        } catch (e) {
+            callPopup((e as Error).message, 'error')
         }
-    }, [token, userId, request])
+    }, [token, userId, request, callPopup])
 
     const getPosts = useCallback( async () => {
         try {
@@ -34,10 +35,10 @@ export const ProfilePage = () => {
                 Authorization: `Bearer ${token}`
             })
             setPosts(fetched.post)
-        } catch (e: any) {
-            callPopup(e.message, 'error')
+        } catch (e) {
+            callPopup((e as Error).message, 'error')
         }
-    }, [token, userId, request])
+    }, [token, userId, request, callPopup])
 
     useEffect(() => {
         getPosts()
@@ -54,8 +55,8 @@ export const ProfilePage = () => {
 
     return(
         <div className='flex-1 relative h-full'>
-            { !loading && mode === 'view' && user && posts && <UserCard data={user} posts={posts} changeMode={changeMode} />}
-            { !loading && mode === 'edit' && user && <EditUserCard data={user} changeMode={changeMode} />}
+            { !loading && mode === 'view' && user && posts && <UserCard user={user} posts={posts} changeMode={changeMode} />}
+            { !loading && mode === 'edit' && user && <EditUserCard user={user} changeMode={changeMode} />}
         </div>
     )
 }

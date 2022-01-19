@@ -1,15 +1,16 @@
 import React, {useCallback, useContext, useEffect, useState} from 'react'
-import {QAForm} from "../components/QAForm";
-import { useNavigate } from "react-router-dom";
-import {AuthContext} from "../context/AuthContext";
-import {useHttp} from "../hooks/http.hook";
+import {QAForm} from "../components/QAForm"
+import { useNavigate } from "react-router-dom"
+import {AuthContext} from "../context/AuthContext"
+import {useHttp} from "../hooks/http.hook"
+import {QaType} from "../types";
 
 export const QAPage = () => {
 
     const { token, callPopup } = useContext(AuthContext)
     const navigate = useNavigate()
     const { request } = useHttp()
-    const [qas, setQas] = useState([])
+    const [qas, setQas] = useState<QaType[]>([])
     const [numberOfQas, setNumberOfQas] = useState(5)
 
     useEffect( () => {
@@ -22,13 +23,12 @@ export const QAPage = () => {
                 Authorization: `Bearer ${token}`
             })
             setQas(fetched.qas.reverse())
-        } catch (e: any) {
-            callPopup(e.message, 'error')
+        } catch (e) {
+            callPopup((e as Error).message, 'error')
         }
-    }, [token, request, setQas])
+    }, [token, request, setQas, callPopup])
 
-    const addQa = (qa: any) => {
-        // @ts-ignore
+    const addQa = (qa: QaType) => {
         setQas([qa,...qas])
     }
 
@@ -41,13 +41,13 @@ export const QAPage = () => {
                 Authorization: `Bearer ${token}`
             })
             navigate('/chat')
-        } catch (e: any) {
-            console.log(e.message)
+        } catch (e) {
+            callPopup((e as Error).message, 'error')
         }
     }
 
 
-    const elements = qas?.map( (qa: any) => {
+    const elements = qas.map( (qa: QaType) => {
         return (
             <div className='shadow rounded-b w-full h-auto mt-5 px-5 py-4'>
                 <div className='pl-4'>
@@ -61,7 +61,7 @@ export const QAPage = () => {
                     { qa.img &&
                         <img className='w-full border rounded-xl mt-5'
                              src={'/uploads/qa/' + qa.img}
-                             alt='Attached image'/>
+                             alt='Attached file'/>
                     }
                 </div>
                 <div className='flex justify-end'>
@@ -79,7 +79,7 @@ export const QAPage = () => {
 
 
     return (
-        <div className='grid grid-cols-4'>
+        <div className='flex-1 relative h-full grid grid-cols-4'>
             <div className="mx-3 col-start-2 my-5 col-span-2">
                 <div className='shadow rounded-b w-full h-auto px-5 py-4'>
                     <QAForm add={addQa} />

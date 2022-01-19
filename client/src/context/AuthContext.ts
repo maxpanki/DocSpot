@@ -1,4 +1,4 @@
-import {createContext} from "react";
+import {createContext} from "react"
 
 function logoutFunc() {}
 function loginFunc(jwtToken:any, id: any, avatar: string) {}

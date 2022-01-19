@@ -1,8 +1,8 @@
 import React, {useContext, useEffect} from 'react'
-import {AuthContext} from "../context/AuthContext";
-import {useHttp} from "../hooks/http.hook";
-import {useForm} from "react-hook-form";
-import {CreatePostInputs} from "../types";
+import {AuthContext} from "../context/AuthContext"
+import {useHttp} from "../hooks/http.hook"
+import {useForm} from "react-hook-form"
+import {CreatePostInputs} from "../types"
 
 export const CreatePostPage = () => {
 
@@ -29,7 +29,7 @@ export const CreatePostPage = () => {
             if (data.text){
                 formData.append('text', data.text)
             }
-            const res = await fetch('/api/post/create', {
+            await fetch('/api/post/create', {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -41,9 +41,8 @@ export const CreatePostPage = () => {
                     callPopup('Post was successfully added.', 'success')
                 }
             )
-        } catch (e: any) {
-            alert(e.message)
-            callPopup('Data was not saved. ' + e.message, 'error')
+        } catch (e) {
+            callPopup('Data was not saved. ' + (e as Error).message, 'error')
         }
     }
 

@@ -9,7 +9,7 @@ import sendComment from '../img/send-comment.png';
 const CommentForm = ({post, refreshComments}: CommentFormProps) => {
     const { callPopup, token } = useContext(AuthContext)
     const { error, request, clearError } = useHttp()
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<CreateCommentInputs>();
+    const { register, handleSubmit, reset } = useForm<CreateCommentInputs>();
 
     useEffect(() => {
         if (error != null) {
@@ -20,7 +20,7 @@ const CommentForm = ({post, refreshComments}: CommentFormProps) => {
 
     const onSubmit: SubmitHandler<CreateCommentInputs> = async (data) => {
         try {
-            const res = await request('/api/comments/create', 'POST', {
+            await request('/api/comments/create', 'POST', {
                 text: data.text,
                 post: post
             }, {
@@ -40,7 +40,7 @@ const CommentForm = ({post, refreshComments}: CommentFormProps) => {
                     type='text' id='text' placeholder='Write your comment... '
                     {...register('text', { required: true })}/>
                 <button type='submit' className='absolute -ml-7 mt-2'>
-                    <img className='h-5' src={sendComment}/>
+                    <img alt='Attachment file' className='h-5' src={sendComment}/>
                 </button>
             </form>
         </div>

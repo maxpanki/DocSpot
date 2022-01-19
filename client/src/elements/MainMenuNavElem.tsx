@@ -1,6 +1,6 @@
-import React from "react";
-import {MainMenuNavElemProps} from "../types";
-import {Link} from "react-router-dom";
+import React from "react"
+import {MainMenuNavElemProps} from "../types"
+import {Link} from "react-router-dom"
 
 const MainMenuNavElem = ({message, actionLink, svg}:MainMenuNavElemProps) => {
     return(
