@@ -75,7 +75,7 @@ const Stats = ({user, postsActivity}: StatsProps) => {
         <div className="mx-3 col-span-3">
             {element}
             {(user.role === 'Company' || user.role === 'Doctor') && button}
-            {!user.isVerified &&
+            {(user.role === 'Company' || user.role === 'Doctor') && !user.isVerified &&
                 <p className='text-xs text-gray-400 text-center mt-1'>
                     You have to be verified in order to create post
                 </p>

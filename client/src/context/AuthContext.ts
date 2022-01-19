@@ -1,7 +1,7 @@
 import {createContext} from "react"
 
 function logoutFunc() {}
-function loginFunc(jwtToken:any, id: any, avatar: string) {}
+function loginFunc(jwtToken:any, id: any, avatar: string, isVerified: boolean) {}
 function callPopupFunc(message: string, type: string) {}
 
 export const AuthContext = createContext({
@@ -11,5 +11,6 @@ export const AuthContext = createContext({
     login: loginFunc,
     logout: logoutFunc,
     isAuthenticated: false,
-    callPopup: callPopupFunc
+    callPopup: callPopupFunc,
+    isVerified: false
 })

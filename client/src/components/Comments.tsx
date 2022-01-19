@@ -21,6 +21,7 @@ export const Comments = ({ postId }: CommentsProps) => {
             }, {
                 Authorization: `Bearer ${token}`
             })
+            console.log('WEGOT COMENTS:',fetched.comments)
             setComments(fetched.comments)
         } catch (e) {
             callPopup((e as Error).message, 'error')
@@ -52,7 +53,7 @@ export const Comments = ({ postId }: CommentsProps) => {
                         setNumberOfComments(value)
                     }}>Show more comments</button>
                 }
-                {elements.slice(elements.length - numberOfComments, elements.length)}
+                {elements.slice(0, numberOfComments)}
                 <div className='grid grid-cols-12 mt-5'>
                     <div className='col-span-1 pt-0.5 mr-2 flex justify-end'>
                         <img className="block h-8 rounded-full"

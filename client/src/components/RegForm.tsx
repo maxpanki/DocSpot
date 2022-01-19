@@ -5,7 +5,7 @@ import { RegFormInputs, RegFormProps } from '../types'
 
 const RegForm = ({callPopup}:RegFormProps) => {
     const { loading, error, request, clearError } = useHttp()
-    const { register, handleSubmit, watch, formState: { errors } } = useForm<RegFormInputs>()
+    const { register, handleSubmit, watch, formState: { errors }, reset } = useForm<RegFormInputs>()
 
     useEffect(() => {
         if (error != null) {
@@ -33,6 +33,7 @@ const RegForm = ({callPopup}:RegFormProps) => {
                     personName: data.name,
                     personSecondName: data.secondName
                 })
+                reset()
                 callPopup(res.message, 'success')
             }
         } catch (e) {

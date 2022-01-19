@@ -10,7 +10,7 @@ import {Alerts} from "./elements/Alerts"
 
 function App() {
 
-    const {token, login, logout, userId, ready, avatar} = useAuth()
+    const {token, login, logout, userId, ready, avatar, isVerified} = useAuth()
     const isAuthenticated = !!token
     const routes = useRoutes(isAuthenticated)
 
@@ -38,9 +38,9 @@ function App() {
 
     return (
         <AuthContext.Provider value={{
-                token, userId, avatar, login, logout, isAuthenticated, callPopup
+                token, userId, avatar, login, logout, isAuthenticated, callPopup, isVerified
         }}>
-            <div className='min-h-screen flex flex-col'>
+            <div className='min-h-screen flex flex-col bg-gray-50'>
                 <Router>
                   <Header isAuthenticated={isAuthenticated}/>
                   {routes}

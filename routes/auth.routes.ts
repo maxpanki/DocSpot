@@ -92,7 +92,7 @@ router.post(
                 { expiresIn: '24h' }
             )
 
-            res.json({ token, userId: user.id, avatar: user.avatar })
+            res.json({ token, userId: user.id, avatar: user.avatar, isVerified: user.isVerified })
 
         } catch (e: any) {
             res.status(500).json({

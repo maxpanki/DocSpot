@@ -7,7 +7,7 @@ export const UserCard = ({user, posts, changeMode}: UserCardProps) => {
 
     return(
         <div>
-            <div className='grid grid-cols-12 bg-gray-50'>
+            <div className='grid grid-cols-12'>
                 <UserInfo user={user} changeMode={changeMode}/>
                 <div className="mx-3 mt-10 col-span-9">
                     {

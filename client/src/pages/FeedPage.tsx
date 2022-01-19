@@ -76,8 +76,8 @@ export const FeedPage = () => {
     }
 
     return(
-        <div>
-            <div className='grid grid-cols-12 bg-gray-50 pt-10'>
+        <div className='flex-1 relative h-full'>
+            <div className='grid grid-cols-12 pt-10'>
                 {!loading && user && postsActivity && <Stats user={user} postsActivity={postsActivity} />}
                 {!loading && posts && <Posts posts={posts}/>}
                 {!loading && tags && <RecommendedHashtags tags={tags}/>}

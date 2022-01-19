@@ -38,7 +38,7 @@ const Header = ({isAuthenticated}: HeaderProps) => {
     }
 
     return (
-        <div className="mx-auto border-b border-gray-300 w-full h-14">
+        <div className="mx-auto border-b border-gray-300 bg-white w-full h-14">
             <div className="grid grid-cols-12 content-center">
                 <Link to='/' className="col-span-2 pt-2.5 ml-5 font-logo text-2xl font-bold text-blue-500 cursor-default">
                     DocSpot.

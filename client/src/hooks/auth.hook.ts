@@ -7,14 +7,16 @@ export const useAuth = () => {
     const [token, setToken] = useState(null)
     const [userId, setUserId] = useState(null)
     const [avatar, setAvatar] = useState('defaultAvatar.bmp')
+    const [isVerified, setIsVerified] = useState(false)
 
-    const login = useCallback((jwtToken, id, avatar) => {
+    const login = useCallback((jwtToken, id, avatar, isVerified) => {
         setToken(jwtToken)
         setUserId(id)
         setAvatar(avatar)
+        setIsVerified(isVerified)
 
         localStorage.setItem(storageName, JSON.stringify({
-            userId: id, token: jwtToken, avatar: avatar
+            userId: id, token: jwtToken, avatar: avatar, isVerified: isVerified
         }))
     }, [])
 
@@ -28,10 +30,10 @@ export const useAuth = () => {
         const data = JSON.parse(localStorage.getItem(storageName) || '{}')
 
         if (data && data.token) {
-            login(data.token, data.userId, data.avatar)
+            login(data.token, data.userId, data.avatar, data.isVerified)
         }
         setReady(true)
     }, [login])
 
-    return { login, logout, token, userId, ready, avatar }
+    return { login, logout, token, userId, ready, avatar, isVerified }
 }

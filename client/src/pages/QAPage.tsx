@@ -7,7 +7,7 @@ import {QaType} from "../types";
 
 export const QAPage = () => {
 
-    const { token, callPopup } = useContext(AuthContext)
+    const { token, callPopup, isVerified } = useContext(AuthContext)
     const navigate = useNavigate()
     const { request } = useHttp()
     const [qas, setQas] = useState<QaType[]>([])
@@ -31,6 +31,32 @@ export const QAPage = () => {
     const addQa = (qa: QaType) => {
         setQas([qa,...qas])
     }
+
+    const buttonElement = (qa: QaType) => {
+        if (!isVerified) {
+            return (
+                <div className='mt-4 grid'>
+                    <button className='px-3 py-1 text-sm text-white bg-gray-500 rounded-md'>
+                        Start a conversation
+                    </button>
+                    <div className='text-xs text-gray-400'>
+                        You must be verified doctor or company in order to answer
+                    </div>
+                </div>
+            )
+        } else {
+            return (
+                <button
+                    className='px-3 py-1 text-sm mt-4 text-white bg-blue-600 rounded-md hover:bg-blue-500 focus:bg-indigo-200 focus:outline-none'
+                    onClick={()=>{
+                        startConversation(qa.owner, qa.title)
+                    }}>
+                    Start a conversation
+                </button>
+            )
+        }
+    }
+
 
     const startConversation = async (owner:string, title: string) => {
         try {
@@ -65,13 +91,7 @@ export const QAPage = () => {
                     }
                 </div>
                 <div className='flex justify-end'>
-                    <button
-                        className='px-3 py-1 text-sm mt-4 text-white bg-blue-600 rounded-md hover:bg-blue-500 focus:bg-indigo-200 focus:outline-none'
-                        onClick={()=>{
-                            startConversation(qa.owner, qa.title)
-                        }}>
-                        Start a conversation
-                    </button>
+                    {buttonElement(qa)}
                 </div>
             </div>
         )
